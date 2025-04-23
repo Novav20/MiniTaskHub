@@ -1,0 +1,57 @@
+using System.Reflection;
+using Microsoft.EntityFrameworkCore;
+using MiniTaskHub.Api.Data;
+using MiniTaskHub.Api.Services;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// ────── Add Services to the Container ──────
+
+// Add Controllers
+builder.Services.AddControllers();
+
+// Add Swagger with XML comments
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+});
+
+// Add Entity Framework Core with SQL Server
+builder.Services.AddDbContext<TaskHubDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Register Application Services
+builder.Services.AddScoped<ITaskService, TaskService>();
+
+// Configure CORS for Angular Frontend
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod());
+});
+
+// ────── Build the App ──────
+
+var app = builder.Build();
+
+// ────── Configure the HTTP Request Pipeline ──────
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+app.UseCors("AllowFrontend");
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();

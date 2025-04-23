@@ -1,0 +1,17 @@
+# .NET
+**/bin/
+**/obj/
+*.db
+appsettings.Development.json
+appsettings.json
+CodeSnippets
+
+# Angular
+**/node_modules/
+**/dist/
+**/.angular/
+
+# OS/IDE
+.vscode/
+*.log
+.env
