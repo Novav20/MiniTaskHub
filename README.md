@@ -16,8 +16,9 @@ A full-stack task management app built with:
 - Run: `npm install && ng serve`
 
 ## Folder Structure
-
+```
 MiniTaskHub/ 
 ├── MiniTaskHub.sln # Solution file 
 ├── MiniTaskHub.Api/ # .NET Web API 
 └── MiniTaskHub.Web/ # Angular frontend
+```
