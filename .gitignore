@@ -6,12 +6,44 @@ appsettings.Development.json
 appsettings.json
 CodeSnippets
 
-# Angular
+# Angular/Node
 **/node_modules/
 **/dist/
 **/.angular/
+**/tmp/
+**/out-tsc/
+**/bazel-out/
+npm-debug.log
+yarn-error.log
 
-# OS/IDE
-.vscode/
-*.log
+# Angular IDE/editor
+**/.idea/
+**/.project
+**/.classpath
+**/.c9/
+**/*.launch
+**/.settings/
+**/*.sublime-workspace
+
+# Visual Studio Code
+**/.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Angular history/cache/misc
+**/.history/
+**/.angular/cache
+.sass-cache/
+.connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
+# System files
+.DS_Store
+Thumbs.db
 .env
+*.log
