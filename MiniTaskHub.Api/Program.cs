@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using MiniTaskHub.Api.Data;
 using MiniTaskHub.Api.Services;
@@ -8,7 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 // ────── Add Services to the Container ──────
 
 // Add Controllers
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 
 // Add Swagger with XML comments
 builder.Services.AddEndpointsApiExplorer();

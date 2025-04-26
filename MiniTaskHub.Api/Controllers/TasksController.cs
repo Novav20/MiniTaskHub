@@ -171,6 +171,7 @@ namespace MiniTaskHub.Api.Controllers
             {
                 Title = taskDto.Title,
                 Description = taskDto.Description,
+                Status = taskDto.Status,
                 DueDate = taskDto.DueDate
             };
         }

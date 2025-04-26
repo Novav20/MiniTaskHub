@@ -1,0 +1,40 @@
+<section class="task-list">
+    <div class="filters">
+        <label>Status:
+            <select [(ngModel)]="statusFilter">
+                <option value="">All</option>
+                @for (status of taskStatusOptions; track $index) {
+                <option value="{{status}}">{{status}}</option>
+                }
+            </select>
+        </label>
+        <label>Due before:
+            <input type="date" [(ngModel)]="dueDateFilter">
+        </label>
+    </div>
+    <button (click)="createTask()" class="create-task-btn">+ New Task</button>
+    @if (loading) {
+    <div class="loading">Loading...</div>
+    }
+
+    @if (errorMessage) {
+    <div class="error-message">{{ errorMessage }}</div>
+    }
+    @if(tasks.length > 0)
+    {
+    @for (task of filteredTasks; track $index) {
+    <li class="task-card">
+        <h3>{{task.title}}</h3>
+        <p>{{task.description}} </p>
+        <p>Status: {{task.status}} </p>
+        <p>Due: {{task.dueDate | date}} </p>
+        <button (click)="deleteTask(task.id!)">Delete</button>
+        <button (click)="editTask(task)">Edit</button>
+    </li>
+    }
+    }
+    @else
+    {
+    <p>No tasks found.</p>
+    }
+</section>

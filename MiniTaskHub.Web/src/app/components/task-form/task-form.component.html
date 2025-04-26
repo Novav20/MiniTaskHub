@@ -1,0 +1,45 @@
+<form #taskForm="ngForm" (ngSubmit)="onSubmit(taskForm)">
+  @if (loading) {
+  <div class="loading">Loading...</div>
+  }
+
+  @if (errorMessage) {
+  <div class="error-message">{{ errorMessage }}</div>
+  }
+  <div>
+    <label for="title">Title</label>
+    <input type="text" id="title" name="title" [(ngModel)]="task.title" required />
+    @if (taskForm.submitted && !task.title) {
+    <div class="error-message">Title is required</div>
+    }
+  </div>
+
+  <div>
+    <label for="description">Description</label>
+    <textarea id="description" name="description" [(ngModel)]="task.description" required></textarea>
+    @if (taskForm.submitted && !task.description) {
+    <div class="error-message">Description is required</div>
+    }
+  </div>
+
+  @if (isEditMode) {
+  <div>
+    <label for="status">Status</label>
+    <select id="status" name="status" [(ngModel)]="task.status" required>
+      <option *ngFor="let status of taskStatusOptions" [value]="status">{{ status }}</option>
+    </select>
+    @if (taskForm.submitted && !task.status) {
+    <div class="error-message">Status is required</div>
+    }
+  </div>
+  }
+
+  <div>
+    <label for="dueDate">Due Date</label>
+    <input type="date" id="dueDate" name="dueDate" [(ngModel)]="task.dueDate" required />
+  </div>
+
+  <button type="submit" [disabled]="taskForm.invalid">
+    {{ isEditMode ? 'Update Task' : 'Create Task' }}
+  </button>
+</form>

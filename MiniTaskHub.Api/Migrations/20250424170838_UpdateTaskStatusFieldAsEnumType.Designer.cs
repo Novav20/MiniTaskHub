@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MiniTaskHub.Api.Data;
 
@@ -11,9 +12,11 @@ using MiniTaskHub.Api.Data;
 namespace MiniTaskHub.Api.Migrations
 {
     [DbContext(typeof(TaskHubDbContext))]
-    partial class TaskHubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250424170838_UpdateTaskStatusFieldAsEnumType")]
+    partial class UpdateTaskStatusFieldAsEnumType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
