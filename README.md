@@ -21,4 +21,5 @@ MiniTaskHub/
 ├── MiniTaskHub.sln # Solution file 
 ├── MiniTaskHub.Api/ # .NET Web API 
 └── MiniTaskHub.Web/ # Angular frontend
+└── MiniTaskHub.Tests/ # Unit Tests
 ```
