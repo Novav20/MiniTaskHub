@@ -1,6 +1,9 @@
 body {
-    background: linear-gradient(120deg, #f0f4f8 0%, #e2e8f0 100%);
-    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
-    margin: 0;
-    min-height: 100vh;
-}
+    background: #f5f7fa;
+    font-family: 'Roboto', Arial, sans-serif;
+  }
+  
+  mat-card {
+    box-shadow: 0 2px 8px rgba(60, 60, 60, 0.08);
+    border-radius: 8px;
+  }

@@ -1,45 +1,48 @@
 <form #taskForm="ngForm" (ngSubmit)="onSubmit(taskForm)">
-  @if (loading) {
-  <div class="loading">Loading...</div>
-  }
+  <mat-card>
 
-  @if (errorMessage) {
-  <div class="error-message">{{ errorMessage }}</div>
-  }
-  <div>
-    <label for="title">Title</label>
-    <input type="text" id="title" name="title" [(ngModel)]="task.title" required />
-    @if (taskForm.submitted && !task.title) {
-    <div class="error-message">Title is required</div>
+    <mat-form-field appearance="fill">
+      <mat-label>Title</mat-label>
+      <input matInput id="title" name="title" [(ngModel)]="task.title" required />
+      @if (taskForm.submitted && !task.title) {
+      <mat-error>Title is required</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label for="description">Description</mat-label>
+      <textarea matInput id="description" name="description" [(ngModel)]="task.description" required></textarea>
+      @if (taskForm.submitted && !task.description) {
+      <mat-error>Description is required</mat-error>
+      }
+    </mat-form-field>
+
+    @if (isEditMode) {
+    <ng-container>
+      <mat-label for="status">Status</mat-label>
+      <mat-select id="status" name="status" [(ngModel)]="task.status" required>
+        <mat-option *ngFor="let status of taskStatusOptions" [value]="status">{{ status }}</mat-option>
+      </mat-select>
+      @if (taskForm.submitted && !task.status) {
+      <mat-error>Status is required</mat-error>
+      }
+    </ng-container>
     }
-  </div>
 
-  <div>
-    <label for="description">Description</label>
-    <textarea id="description" name="description" [(ngModel)]="task.description" required></textarea>
-    @if (taskForm.submitted && !task.description) {
-    <div class="error-message">Description is required</div>
+    <mat-form-field appearance="fill">
+      <mat-label>Due Date</mat-label>
+      <input matInput type="date" id="dueDate" name="dueDate" [(ngModel)]="task.dueDate" required />
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="taskForm.invalid">
+      {{ isEditMode ? 'Update Task' : 'Create Task' }}
+    </button>
+
+    @if (loading) {
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
     }
-  </div>
-
-  @if (isEditMode) {
-  <div>
-    <label for="status">Status</label>
-    <select id="status" name="status" [(ngModel)]="task.status" required>
-      <option *ngFor="let status of taskStatusOptions" [value]="status">{{ status }}</option>
-    </select>
-    @if (taskForm.submitted && !task.status) {
-    <div class="error-message">Status is required</div>
+    @if (errorMessage) {
+    <mat-error color="warn">{{ errorMessage }}</mat-error>
     }
-  </div>
-  }
-
-  <div>
-    <label for="dueDate">Due Date</label>
-    <input type="date" id="dueDate" name="dueDate" [(ngModel)]="task.dueDate" required />
-  </div>
-
-  <button type="submit" [disabled]="taskForm.invalid">
-    {{ isEditMode ? 'Update Task' : 'Create Task' }}
-  </button>
+  </mat-card>
 </form>

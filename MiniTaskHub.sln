@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniTaskHub.Api", "MiniTaskHub.Api\MiniTaskHub.Api.csproj", "{314963FC-DF5A-470C-8525-300A404AE793}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniTaskHub.Tests", "MiniTaskHub.Tests\MiniTaskHub.Tests.csproj", "{5D12031A-2147-43F1-8EE7-A7A95113DBB2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{314963FC-DF5A-470C-8525-300A404AE793}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{314963FC-DF5A-470C-8525-300A404AE793}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{314963FC-DF5A-470C-8525-300A404AE793}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D12031A-2147-43F1-8EE7-A7A95113DBB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D12031A-2147-43F1-8EE7-A7A95113DBB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D12031A-2147-43F1-8EE7-A7A95113DBB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D12031A-2147-43F1-8EE7-A7A95113DBB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
