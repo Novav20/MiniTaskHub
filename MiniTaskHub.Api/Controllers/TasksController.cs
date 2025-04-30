@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MiniTaskHub.Api.Models;
@@ -7,9 +8,10 @@ namespace MiniTaskHub.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TasksController(ITaskService taskService) : ControllerBase
+    public class TasksController(ITaskService taskService, IMapper mapper) : ControllerBase
     {
         private readonly ITaskService _taskService = taskService;
+        private readonly IMapper _mapper = mapper;
 
         /// <summary>
         /// Retrieves all tasks from the database.
@@ -23,15 +25,8 @@ namespace MiniTaskHub.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetTasks()
         {
-            try
-            {
-                var tasks = await _taskService.GetAllTasksAsync();
-                return Ok(tasks);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
-            }
+            var tasks = await _taskService.GetAllTasksAsync();
+            return Ok(tasks);
         }
 
         /// <summary>
@@ -49,16 +44,9 @@ namespace MiniTaskHub.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetTask(int id)
         {
-            try
-            {
-                var task = await _taskService.GetTaskByIdAsync(id);
-                if (task is null) return NotFound();
-                return Ok(task);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
-            }
+            var task = await _taskService.GetTaskByIdAsync(id);
+            if (task is null) return NotFound(new ErrorResponse { Message = $"Task with id {id} not found." });
+            return Ok(task);
         }
 
         /// <summary>
@@ -76,19 +64,14 @@ namespace MiniTaskHub.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateTask([FromBody] TaskDto taskDto)
         {
-            try
-            {
-                if (taskDto == null) return BadRequest("Task data cannot be null.");
-                if (!ModelState.IsValid) return BadRequest(ModelState);
+            if (taskDto == null)
+                return BadRequest(new ErrorResponse { Message = "Task data cannot be null." });
+            if (!ModelState.IsValid)
+                return BadRequest(new ErrorResponse { Message = "Validation failed.", Details = ModelState.ToString() });
 
-                var task = DtoToTask(taskDto);
-                var createdTask = await _taskService.CreateTaskAsync(task);
-                return CreatedAtAction(nameof(GetTask), new { id = createdTask.Id }, createdTask);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
-            }
+            var task = _mapper.Map<TaskItem>(taskDto);
+            var createdTask = await _taskService.CreateTaskAsync(task);
+            return CreatedAtAction(nameof(GetTask), new { id = createdTask.Id }, createdTask);
         }
 
         /// <summary>
@@ -98,6 +81,7 @@ namespace MiniTaskHub.Api.Controllers
         /// <param name="taskDto">The updated task data.</param>
         /// <returns>
         /// HTTP 200 OK with the updated task,
+        /// 400 Bad Request if input is invalid,
         /// 404 Not Found if the task does not exist,
         /// or 500 Internal Server Error if an exception occurs.
         /// </returns>
@@ -108,17 +92,15 @@ namespace MiniTaskHub.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> UpdateTask(int id, [FromBody] TaskDto taskDto)
         {
-            try
-            {
-                var task = DtoToTask(taskDto);
-                var updatedTask = await _taskService.UpdateTaskAsync(id, task);
-                if (updatedTask is null) return NotFound();
-                return Ok(updatedTask);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
-            }
+            if (taskDto == null)
+                return BadRequest(new ErrorResponse { Message = "Task data cannot be null." });
+            if (!ModelState.IsValid)
+                return BadRequest(new ErrorResponse { Message = "Validation failed.", Details = ModelState.ToString() });
+
+            var task = _mapper.Map<TaskItem>(taskDto);
+            var updatedTask = await _taskService.UpdateTaskAsync(id, task);
+            if (updatedTask is null) return NotFound(new ErrorResponse { Message = $"Task with id {id} not found." });
+            return Ok(updatedTask);
         }
 
         /// <summary>
@@ -136,44 +118,21 @@ namespace MiniTaskHub.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-
         public async Task<IActionResult> DeleteTask(int id)
         {
+            var task = await _taskService.GetTaskByIdAsync(id);
+            if (task is null) return NotFound(new ErrorResponse { Message = $"Task with id {id} not found." });
+
             try
             {
-                var task = await _taskService.GetTaskByIdAsync(id);
-                if (task is null) return NotFound();
-
-                try
-                {
-                    await _taskService.DeleteTaskAsync(id);
-                    return NoContent(); // Successfully deleted
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    return Conflict("The task was modified or deleted by another user.");
-                }
+                await _taskService.DeleteTaskAsync(id);
+                return NoContent(); // Successfully deleted
             }
-            catch (Exception ex)
+            catch (DbUpdateConcurrencyException)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
+                return Conflict(new ErrorResponse { Message = "The task was modified or deleted by another user." });
             }
         }
 
-        /// <summary>
-        /// Maps a TaskDto to a TaskItem entity.
-        /// </summary>
-        /// <param name="taskDto">The DTO containing task data.</param>
-        /// <returns>A new TaskItem entity.</returns>
-        private static TaskItem DtoToTask(TaskDto taskDto)
-        {
-            return new TaskItem
-            {
-                Title = taskDto.Title,
-                Description = taskDto.Description,
-                Status = taskDto.Status,
-                DueDate = taskDto.DueDate
-            };
-        }
     }
 }

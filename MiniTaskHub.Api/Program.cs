@@ -1,7 +1,10 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using MiniTaskHub.Api.Data;
+using MiniTaskHub.Api.Mappings;
+using MiniTaskHub.Api.Models;
 using MiniTaskHub.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +17,8 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
+
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 // Add Swagger with XML comments
 builder.Services.AddEndpointsApiExplorer();
@@ -51,6 +56,24 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Global error handler
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        context.Response.ContentType = "application/json";
+
+        var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
+        var error = new ErrorResponse
+        {
+            Message = "An unexpected error occured.",
+            Details = app.Environment.IsDevelopment() ? exceptionHandlerPathFeature?.Error.ToString() : null
+        };
+        await context.Response.WriteAsJsonAsync(error);
+    });
+});
+
 app.UseHttpsRedirection();
 
 app.UseCors("AllowFrontend");
@@ -58,5 +81,7 @@ app.UseCors("AllowFrontend");
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapGet("/api/throw", (HttpContext _) => throw new Exception("An unexpected error occurred."));
 
 app.Run();

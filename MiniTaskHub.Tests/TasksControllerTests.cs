@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using MiniTaskHub.Api.Controllers;
@@ -15,7 +16,8 @@ public class TasksControllerTests
     {
         // Arrange
         var mockService = new Mock<ITaskService>(); // Mock the ITaskService
-        var controller = new TasksController(mockService.Object);
+        var mockMapper = new Mock<IMapper>();
+        var controller = new TasksController(mockService.Object, mockMapper.Object);
 
         // Simulate invalid model state (e.g. missing title)
         controller.ModelState.AddModelError("Title", "Required");
