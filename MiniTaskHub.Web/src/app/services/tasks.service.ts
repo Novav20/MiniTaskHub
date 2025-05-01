@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, delay, Observable, throwError } from 'rxjs';
 import { Task } from '../models/task.model';
 
 @Injectable({
@@ -30,7 +30,10 @@ export class TasksService {
 
   // Update an existing task
   updateTask(id: number, task: Task): Observable<Task> {
-    return this.http.put<Task>(`${this.apiUrl}/${id}`, task).pipe(catchError(this.handleError));
+    return this.http.put<Task>(`${this.apiUrl}/${id}`, task).pipe(
+      // delay(1500),
+      catchError(this.handleError)
+    );
   }
 
   // Delete a task

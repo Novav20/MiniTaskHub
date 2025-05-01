@@ -1,0 +1,12 @@
+<section>
+    @if (loading) {
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    }
+    @else if(errorMessage) {
+    <mat-card> color="warn">{{ errorMessage }}</mat-card>
+    }
+    @else if(task){
+        <button mat-stroked-button color="primary" routerLink="/" style="margin-bottom: 24px;">← Back to List</button>
+    <app-task-card [task]="task" [truncate]="false" cardClass="details-card"></app-task-card>
+    }
+</section>

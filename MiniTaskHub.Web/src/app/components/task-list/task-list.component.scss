@@ -1,3 +1,4 @@
+// Layout
 section {
   max-width: 800px;
   margin: 32px auto;
@@ -11,23 +12,23 @@ section {
   flex-wrap: wrap;
 }
 
+@media (max-width: 600px) {
+  .filters {
+    flex-direction: column;
+    gap: 12px;
+  }
+  section {
+    padding: 0 4px;
+  }
+}
+
+// Buttons
 .create-task-btn {
   margin: 16px 0 24px 0;
   display: block;
 }
 
-.task-card {
-  margin-bottom: 20px;
-  border-left: 5px solid #1976d2;
-  transition: box-shadow 0.2s;
-  padding-left: 20px;
-  padding-top: 10px;
-}
-
-.task-card:hover {
-  box-shadow: 0 4px 20px rgba(25, 118, 210, 0.15);
-}
-
+// Material Overrides
 mat-progress-spinner {
   display: block;
   margin: 40px auto;
@@ -43,12 +44,106 @@ mat-card[color="warn"] {
   font-size: 1.1em;
 }
 
+mat-card-title {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+  max-width: 100%;
+  font-size: 1.1em;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  padding-right: 16px; // Add this line for spacing
+}
+
+.task-description {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+  max-width: 100%;
+  color: #444;
+  font-size: 1em;
+  margin-bottom: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  padding-right: 16px; // Add this line for spacing
+}
+
+// No Tasks Message
+.no-tasks-card {
+  background: #f5f7fa;
+  color: #555;
+  text-align: center;
+  margin: 32px auto;
+  padding: 32px 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(25, 118, 210, 0.07);
+  max-width: 400px;
+}
+
+.no-tasks-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.no-tasks-text {
+  font-size: 1.3em;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.no-tasks-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+.no-tasks-icon mat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+}
+
+.sort-order-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end; // Align with bottom of mat-form-field
+  margin-left: 4px;
+  margin-bottom: 0;
+  gap: 2px;
+  height: 56px; // Match mat-form-field height
+}
+
+.sort-order-buttons button.mat-icon-button {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
+  line-height: 32px;
+  margin-bottom: 12px; // Push button down to align with mat-form-field text
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sort-order-buttons mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
 @media (max-width: 600px) {
-  .filters {
-    flex-direction: column;
-    gap: 12px;
-  }
-  section {
-    padding: 0 4px;
+  .sort-order-buttons {
+    flex-direction: row;
+    margin-left: 0;
+    margin-top: 8px;
   }
 }

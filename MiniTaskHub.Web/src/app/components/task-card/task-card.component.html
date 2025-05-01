@@ -1,0 +1,15 @@
+<mat-card [ngClass]="['task-card', $any(cardClass)]">
+    <mat-card-title [ngClass]="{'truncate': truncate}">{{task.title}}</mat-card-title>
+    <mat-card-content>
+        <p class="task-description" [ngClass]="{'truncate': truncate}">{{task.description}}</p>
+        <p>Status: {{task.status}}</p>
+        <p>Due: {{task.dueDate | date}}</p>
+    </mat-card-content>
+    @if(truncate){
+    <mat-card-actions>
+        <button mat-button color="primary" (click)="view.emit(task.id!)">View Details</button>
+        <button mat-button color="accent" (click)="edit.emit(task)">Edit</button>
+        <button mat-button color="warn" (click)="delete.emit(task.id!)">Delete</button>
+    </mat-card-actions>
+    }
+</mat-card>

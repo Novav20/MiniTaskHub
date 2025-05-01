@@ -13,6 +13,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { TaskCardComponent } from '../task-card/task-card.component';
 
 @Component({
   selector: 'app-task-list',
@@ -25,7 +28,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatInputModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    TaskCardComponent
   ],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss'
@@ -37,8 +41,15 @@ export class TaskListComponent implements OnInit {
   taskStatusOptions = Object.values(TaskStatus);
   statusFilter: string = '';
   dueDateFilter: string = '';
+  sortBy: string = 'dueDate';
+  sortOrder: string = 'asc';
 
-  constructor(private tasksService: TasksService, private shared: SharedService, private router: Router) { }
+  constructor(
+    private tasksService: TasksService,
+    private shared: SharedService,
+    private router: Router,
+    private dialog: MatDialog
+  ) { }
   ngOnInit(): void {
     this.loading = true;
     this.tasksService.getTasks().subscribe({
@@ -52,6 +63,9 @@ export class TaskListComponent implements OnInit {
       }
     });
   }
+  viewTask(id: number) {
+    this.router.navigate(['/tasks', id]);
+  }
   createTask() {
     this.shared.setTaskToEdit(null);
     this.router.navigate(['/create']);
@@ -64,24 +78,51 @@ export class TaskListComponent implements OnInit {
   }
 
   deleteTask(id: number) {
-    this.tasksService.deleteTask(id).subscribe({
-      next: () => {
-        this.tasks = this.tasks.filter(t => t.id !== id);
-        this.loading = false;
-      },
-      error: (error) => {
-        this.errorMessage = error.message;
-        this.loading = false;
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Confirm Delete',
+        message: 'Are you sure you want to delete this task? This action cannot be undone.'
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        // User confirmed, proceed with deletion
+        this.tasksService.deleteTask(id).subscribe({
+          next: () => {
+            this.tasks = this.tasks.filter(t => t.id !== id);
+            this.loading = false;
+          },
+          error: (error) => {
+            this.errorMessage = error.message;
+            this.loading = false;
+          }
+        });
       }
     });
   }
 
+  toggleSortOrder() {
+    this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+  }
+
   get filteredTasks() {
-    return this.tasks.filter(task => {
+    let filtered = this.tasks.filter(task => {
       const statusMatch = !this.statusFilter || task.status === this.statusFilter;
       const dueDateMatch = !this.dueDateFilter || task.dueDate <= this.dueDateFilter;
       return statusMatch && dueDateMatch;
     });
+
+    if (this.sortBy === 'title') {
+      filtered = filtered.slice().sort((a, b) => a.title.localeCompare(b.title));
+    } else if (this.sortBy === 'dueDate') {
+      filtered = filtered.slice().sort((a, b) => a.dueDate.localeCompare(b.dueDate));
+    }
+
+    if (this.sortOrder === 'desc') {
+      filtered = filtered.reverse();
+    }
+
+    return filtered;
   }
 
 
