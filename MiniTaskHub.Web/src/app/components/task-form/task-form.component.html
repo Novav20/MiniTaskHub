@@ -34,7 +34,7 @@
         <mat-label>Status</mat-label>
         <mat-select id="status" formControlName="status" required>
           @for (status of taskStatusOptions; track $index) {
-            <mat-option [value]="status">{{ status }}</mat-option>
+            <mat-option [value]="status">{{ TaskStatusLabels[status] }}</mat-option>
           }
         </mat-select>
         @if (form.get('status')?.touched && form.get('status')?.hasError('required')) {
@@ -45,7 +45,7 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Due Date</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="dueDate" required />
+      <input matInput [matDatepicker]="picker" formControlName="dueDate" readonly="" />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
       @if (form.get('dueDate')?.touched && form.get('dueDate')?.hasError('required')) {
@@ -61,10 +61,6 @@
         Cancel
       </button>
     </div>
-
-    @if (loading) {
-      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-    }
     @if (errorMessage) {
       <mat-error color="warn">{{ errorMessage }}</mat-error>
     }

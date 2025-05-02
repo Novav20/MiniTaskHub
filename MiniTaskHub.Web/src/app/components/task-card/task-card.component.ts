@@ -3,6 +3,7 @@ import { Task } from '../../models/task.model';
 import { CommonModule } from '@angular/common';
 import { MatCardActions, MatCardContent, MatCardModule, MatCardTitle } from '@angular/material/card';
 import { MatButton } from '@angular/material/button';
+import { TaskStatusLabels } from '../../models/task-status.enum';
 
 @Component({
   selector: 'app-task-card',
@@ -19,6 +20,8 @@ import { MatButton } from '@angular/material/button';
   styleUrl: './task-card.component.scss'
 })
 export class TaskCardComponent {
+  TaskStatusLabels = TaskStatusLabels;
+
   @Input() task!: Task;
   @Output() edit = new EventEmitter<Task>();
   @Output() delete = new EventEmitter<number>();

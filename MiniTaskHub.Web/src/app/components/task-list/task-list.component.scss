@@ -9,16 +9,56 @@ section {
   display: flex;
   gap: 24px;
   margin-bottom: 16px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  min-width: 0;
+
+  @media (max-width: 600px) {
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 16px;
+  }
 }
 
 @media (max-width: 600px) {
   .filters {
     flex-direction: column;
-    gap: 12px;
+    gap: 16px; // Slightly larger gap for touch
   }
   section {
     padding: 0 4px;
+  }
+  .sort-order-buttons {
+    margin-top: 8px;
+    margin-left: 0;
+    height: auto;
+  }
+}
+
+.filter-toolbar {
+  margin-bottom: 24px;
+  padding: 16px 16px 8px 16px;
+}
+
+.filters-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+@media (max-width: 800px) {
+  .filters-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .spacer {
+    display: none;
   }
 }
 
@@ -145,5 +185,40 @@ mat-card-title {
     flex-direction: row;
     margin-left: 0;
     margin-top: 8px;
+  }
+}
+
+.date-filter-field {
+  min-width: 180px;
+  max-width: 220px;
+  position: relative;
+
+  .mat-form-field-suffix {
+    display: flex;
+    flex-direction: row; // <-- Change from row-reverse to row
+    align-items: center;
+    gap: 0;
+  }
+
+  .clear-date-btn {
+    order: 1; // <-- Appear to the left
+    margin-right: 4px; // <-- Add spacing between icons
+    margin-left: 0;
+    padding: 0;
+  }
+
+  .mat-datepicker-toggle {
+    order: 2; // <-- Appear to the right
+  }
+}
+
+.date-filter-icons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .clear-date-btn {
+    margin-right: 4px;
+    padding: 0;
   }
 }

@@ -2,7 +2,7 @@
     <mat-card-title [ngClass]="{'truncate': truncate}">{{task.title}}</mat-card-title>
     <mat-card-content>
         <p class="task-description" [ngClass]="{'truncate': truncate}">{{task.description}}</p>
-        <p>Status: {{task.status}}</p>
+        <p>Status: {{TaskStatusLabels[task.status]}}</p>
         <p>Due: {{task.dueDate | date}}</p>
     </mat-card-content>
     @if(truncate){

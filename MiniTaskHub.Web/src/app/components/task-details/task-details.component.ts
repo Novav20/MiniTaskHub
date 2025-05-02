@@ -4,12 +4,11 @@ import { Task } from '../../models/task.model';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { TasksService } from '../../services/tasks.service';
 import { MatCardModule } from '@angular/material/card';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-task-details',
-  imports: [TaskCardComponent, MatCardModule, MatProgressSpinner, MatButton, RouterModule],
+  imports: [TaskCardComponent, MatCardModule, MatButton, RouterModule],
   templateUrl: './task-details.component.html',
   styleUrl: './task-details.component.scss'
 })

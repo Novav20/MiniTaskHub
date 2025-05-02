@@ -16,6 +16,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { TaskCardComponent } from '../task-card/task-card.component';
+import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-task-list',
@@ -29,7 +31,9 @@ import { TaskCardComponent } from '../task-card/task-card.component';
     MatIconModule,
     MatProgressSpinnerModule,
     MatFormFieldModule,
-    TaskCardComponent
+    TaskCardComponent,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss'

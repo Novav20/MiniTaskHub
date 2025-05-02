@@ -9,7 +9,7 @@ import { Task } from '../models/task.model';
 })
 export class TasksService {
 
-  private apiUrl = `${environment.secureApiUrl}/api/tasks`;
+  private apiUrl = `${environment.apiUrl}/api/tasks`;
 
   constructor(private http: HttpClient) { }
 

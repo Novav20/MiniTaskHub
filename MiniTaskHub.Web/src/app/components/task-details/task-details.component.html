@@ -1,8 +1,5 @@
 <section>
-    @if (loading) {
-    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-    }
-    @else if(errorMessage) {
+    @if(errorMessage) {
     <mat-card> color="warn">{{ errorMessage }}</mat-card>
     }
     @else if(task){

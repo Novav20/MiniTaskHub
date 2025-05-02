@@ -1,63 +1,88 @@
 <section>
-    <mat-card>
-        <div class="filters">
-            <mat-form-field appearance="fill">
-                <mat-label>Status</mat-label>
-                <mat-select [(ngModel)]="statusFilter">
-                    <mat-option value="">All</mat-option>
-                    @for (status of taskStatusOptions; track $index) {
-                    <mat-option value="{{status}}">{{status}}</mat-option>
-                    }
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field appearance="fill">
-                <mat-label>Due before</mat-label>
-                <input matInput type="date" [(ngModel)]="dueDateFilter">
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Sort by</mat-label>
-                <mat-select [(ngModel)]="sortBy">
-                    <mat-option value="dueDate">Due Date</mat-option>
-                    <mat-option value="title">Title</mat-option>
-                </mat-select>
-            </mat-form-field>
-            <div class="sort-order-buttons">
-                <button mat-icon-button (click)="toggleSortOrder()" [color]="sortOrder === 'asc' ? 'primary' : 'accent'"
-                    aria-label="Toggle sort order">
-                    <mat-icon>{{ sortOrder === 'asc' ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
-                </button>
-            </div>
-        </div>
-    </mat-card>
-    <button mat-raised-button color="primary" (click)="createTask()" class="create-task-btn">+ New Task</button>
+  <!-- Filters Toolbar -->
+  <mat-card class="filter-toolbar">
+    <div class="filters-row">
+      <mat-form-field appearance="fill">
+        <mat-label>Status</mat-label>
+        <mat-select [(ngModel)]="statusFilter">
+          <mat-option value="">All</mat-option>
+          @for (status of taskStatusOptions; track $index) {
+            <mat-option value="{{status}}">{{status}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
 
-    @if (loading) {
-    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-    }
-    @if (errorMessage) {
+      <mat-form-field appearance="fill" class="date-filter-field">
+        <mat-label>Due before</mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="dueDateFilter" readonly>
+        <span matSuffix class="date-filter-icons">
+          @if(dueDateFilter){
+            <button mat-icon-button class="clear-date-btn" aria-label="Clear" (click)="dueDateFilter = ''" tabindex="-1">
+              <mat-icon>close</mat-icon>
+            </button>
+          }
+          <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
+        </span>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Sort by</mat-label>
+        <mat-select [(ngModel)]="sortBy">
+          <mat-option value="dueDate">Due Date</mat-option>
+          <mat-option value="title">Title</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="sort-order-buttons">
+        <button mat-icon-button (click)="toggleSortOrder()" [color]="sortOrder === 'asc' ? 'primary' : 'accent'"
+          aria-label="Toggle sort order">
+          <mat-icon>{{ sortOrder === 'asc' ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
+        </button>
+      </div>
+
+      <span class="spacer"></span>
+
+      <button mat-raised-button color="primary" (click)="createTask()" class="create-task-btn">
+        + New Task
+      </button>
+    </div>
+  </mat-card>
+
+  <!-- Error Message -->
+  @if (errorMessage) {
     <mat-card color="warn">{{ errorMessage }}</mat-card>
-    }
+  }
 
-    @if (!loading && tasks.length > 0) {
+  <!-- Task List -->
+  @if (!loading && tasks.length > 0) {
     <ng-container>
-        @for (task of filteredTasks; track $index) {
-        <!-- HERE CARD COMPONENT -->
-        <app-task-card [task]="task" (edit)="editTask($event)" (delete)="deleteTask($event)" (view)="viewTask($event)">
+      @for (task of filteredTasks; track $index) {
+        <app-task-card
+          [task]="task"
+          (edit)="editTask($event)"
+          (delete)="deleteTask($event)"
+          (view)="viewTask($event)">
         </app-task-card>
-        }
+      }
     </ng-container>
-    }
-    @else if (!loading && tasks.length === 0) {
+  }
+  @else if (!loading && tasks.length === 0) {
     <ng-container *ngTemplateOutlet="noTasks"></ng-container>
-    }
-    <ng-template #noTasks>
-        <mat-card class="no-tasks-card">
-            <div class="no-tasks-icon">
-                <mat-icon color="primary" fontIcon="sentiment_dissatisfied"></mat-icon>
-            </div>
-            <div class="no-tasks-text">No tasks found</div>
-            <button mat-stroked-button color="primary" (click)="createTask()" class="create-task-btn">Create your first
-                task</button>
-        </mat-card>
-    </ng-template>
+  }
+
+  <!-- No Tasks Template -->
+  <ng-template #noTasks>
+    <mat-card class="no-tasks-card">
+      <div class="no-tasks-content">
+        <div class="no-tasks-icon">
+          <mat-icon color="primary" fontIcon="sentiment_dissatisfied"></mat-icon>
+        </div>
+        <div class="no-tasks-text">No tasks found</div>
+        <button mat-stroked-button color="primary" (click)="createTask()" class="create-task-btn">
+          Create your first task
+        </button>
+      </div>
+    </mat-card>
+  </ng-template>
 </section>

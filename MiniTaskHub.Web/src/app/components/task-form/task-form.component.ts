@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TaskStatus } from '../../models/task-status.enum';
+import { TaskStatus, TaskStatusLabels } from '../../models/task-status.enum';
 import { Task } from '../../models/task.model';
 import { TasksService } from '../../services/tasks.service';
 import { SharedService } from '../../services/shared.service';
@@ -43,6 +43,7 @@ export class TaskFormComponent {
   taskStatusOptions = Object.values(TaskStatus);
   errorMessage: string | null = null;
   loading = false;
+  TaskStatusLabels = TaskStatusLabels;
 
   constructor(
     private fb: FormBuilder,
