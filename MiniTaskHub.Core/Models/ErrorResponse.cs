@@ -1,6 +1,6 @@
 using System;
 
-namespace MiniTaskHub.Api.Models;
+namespace MiniTaskHub.Core.Models;
 /// <summary>
 /// Standart error response for API errors.
 /// </summary>

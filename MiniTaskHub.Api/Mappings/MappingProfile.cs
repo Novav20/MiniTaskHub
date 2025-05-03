@@ -1,6 +1,6 @@
 using System;
 using AutoMapper;
-using MiniTaskHub.Api.Models;
+using MiniTaskHub.Core.Models;
 
 namespace MiniTaskHub.Api.Mappings;
 

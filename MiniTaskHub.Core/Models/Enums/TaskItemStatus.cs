@@ -1,4 +1,4 @@
-namespace MiniTaskHub.Api.Models.Enums;
+namespace MiniTaskHub.Core.Models.Enums;
 
 public enum TaskItemStatus
 {

@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using MiniTaskHub.Api.Data;
-using MiniTaskHub.Api.Models;
-using MiniTaskHub.Api.Models.Enums;
-using MiniTaskHub.Api.Services;
+using MiniTaskHub.Infrastructure.Data;
+using MiniTaskHub.Core.Models;
+using MiniTaskHub.Core.Models.Enums;
+using MiniTaskHub.Infrastructure.Services;
 
 namespace MiniTaskHub.Tests;
 public class TasksServiceTests

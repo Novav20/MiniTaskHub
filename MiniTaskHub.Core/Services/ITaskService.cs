@@ -1,7 +1,6 @@
-using System;
-using MiniTaskHub.Api.Models;
+using MiniTaskHub.Core.Models;
 
-namespace MiniTaskHub.Api.Services;
+namespace MiniTaskHub.Core.Services;
 
 public interface ITaskService
 {

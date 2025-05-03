@@ -1,8 +1,8 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MiniTaskHub.Api.Models;
-using MiniTaskHub.Api.Services;
+using MiniTaskHub.Core.Models;
+using MiniTaskHub.Core.Services;
 
 namespace MiniTaskHub.Api.Controllers
 {

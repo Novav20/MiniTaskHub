@@ -1,9 +1,9 @@
-using System;
 using Microsoft.EntityFrameworkCore;
-using MiniTaskHub.Api.Data;
-using MiniTaskHub.Api.Models;
+using MiniTaskHub.Infrastructure.Data;
+using MiniTaskHub.Core.Models;
+using MiniTaskHub.Core.Services;
 
-namespace MiniTaskHub.Api.Services;
+namespace MiniTaskHub.Infrastructure.Services;
 
 public class TaskService(TaskHubDbContext context) : ITaskService
 {

@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniTaskHub.Api", "MiniTask
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniTaskHub.Tests", "MiniTaskHub.Tests\MiniTaskHub.Tests.csproj", "{5D12031A-2147-43F1-8EE7-A7A95113DBB2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniTaskHub.Core", "MiniTaskHub.Core\MiniTaskHub.Core.csproj", "{DF799C2F-FD1C-4E69-89B5-54BBDA009546}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiniTaskHub.Infrastructure", "MiniTaskHub.Infrastructure\MiniTaskHub.Infrastructure.csproj", "{E43257D2-88ED-4154-B4C3-AE3A94AE3B9D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +28,13 @@ Global
 		{5D12031A-2147-43F1-8EE7-A7A95113DBB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D12031A-2147-43F1-8EE7-A7A95113DBB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D12031A-2147-43F1-8EE7-A7A95113DBB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF799C2F-FD1C-4E69-89B5-54BBDA009546}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF799C2F-FD1C-4E69-89B5-54BBDA009546}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF799C2F-FD1C-4E69-89B5-54BBDA009546}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF799C2F-FD1C-4E69-89B5-54BBDA009546}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E43257D2-88ED-4154-B4C3-AE3A94AE3B9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E43257D2-88ED-4154-B4C3-AE3A94AE3B9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E43257D2-88ED-4154-B4C3-AE3A94AE3B9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E43257D2-88ED-4154-B4C3-AE3A94AE3B9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

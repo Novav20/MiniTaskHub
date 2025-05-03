@@ -21,6 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../MiniTaskHub.Infrastructure/MiniTaskHub.Infrastructure.csproj" />
     <ProjectReference Include="..\MiniTaskHub.Api\MiniTaskHub.Api.csproj" />
+    <ProjectReference Include="../MiniTaskHub.Core/MiniTaskHub.Core.csproj" />
   </ItemGroup>
 </Project>

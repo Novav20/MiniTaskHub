@@ -1,8 +1,8 @@
 using System;
 using AutoMapper;
 using MiniTaskHub.Api.Mappings;
-using MiniTaskHub.Api.Models;
-using MiniTaskHub.Api.Models.Enums;
+using MiniTaskHub.Core.Models;
+using MiniTaskHub.Core.Models.Enums;
 
 namespace MiniTaskHub.Tests;
 

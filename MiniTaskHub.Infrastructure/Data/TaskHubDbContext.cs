@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using MiniTaskHub.Api.Models;
+using MiniTaskHub.Core.Models;
 
-namespace MiniTaskHub.Api.Data;
+namespace MiniTaskHub.Infrastructure.Data;
 
 public class TaskHubDbContext(DbContextOptions<TaskHubDbContext> options): DbContext(options)
 {

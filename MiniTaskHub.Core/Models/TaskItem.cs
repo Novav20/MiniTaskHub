@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using MiniTaskHub.Api.Models.Enums;
+using MiniTaskHub.Core.Models.Enums;
 
-namespace MiniTaskHub.Api.Models;
+namespace MiniTaskHub.Core.Models;
 
 /// <summary>
 /// Represents a task item in the MiniTaskHub application.

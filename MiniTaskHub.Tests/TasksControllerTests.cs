@@ -2,9 +2,9 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using MiniTaskHub.Api.Controllers;
-using MiniTaskHub.Api.Models;
-using MiniTaskHub.Api.Models.Enums;
-using MiniTaskHub.Api.Services;
+using MiniTaskHub.Core.Models;
+using MiniTaskHub.Core.Models.Enums;
+using MiniTaskHub.Core.Services;
 using Moq;
 
 namespace MiniTaskHub.Tests;

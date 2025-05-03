@@ -2,10 +2,11 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
-using MiniTaskHub.Api.Data;
+using MiniTaskHub.Infrastructure.Data;
 using MiniTaskHub.Api.Mappings;
-using MiniTaskHub.Api.Models;
-using MiniTaskHub.Api.Services;
+using MiniTaskHub.Core.Models;
+using MiniTaskHub.Core.Services;
+using MiniTaskHub.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
