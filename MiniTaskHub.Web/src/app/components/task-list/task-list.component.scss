@@ -1,8 +1,17 @@
 // Layout
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 section {
-  max-width: 800px;
-  margin: 32px auto;
-  padding: 0 16px;
+  width: 100vw;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  padding-top: 0;
 }
 
 .filters {
@@ -36,8 +45,11 @@ section {
 }
 
 .filter-toolbar {
-  margin-bottom: 24px;
-  padding: 16px 16px 8px 16px;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  margin-bottom: 0;
+  padding: 0;
 }
 
 .filters-row {
@@ -62,10 +74,110 @@ section {
   }
 }
 
+// Sticky Toolbar
+.sticky-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.07);
+  /* Asegura que esté por encima de las tareas */
+}
+
+/* Padding to prevent sticky toolbar overlap */
+.task-table,
+app-task-card:first-of-type {
+  margin-top: 0 !important;
+}
+
+// Filter and Sort Groups
+.filter-group {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+}
+
+.sort-group {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+// Toolbar Divider
+.toolbar-divider {
+  width: 1px;
+  background: #e0e0e0;
+  margin: 0 16px;
+  align-self: stretch;
+  display: block;
+}
+
+// Hide on Mobile
+.hide-on-mobile {
+  display: inline;
+}
+
+// Compact Toggle
+.compact-toggle {
+  margin-left: 8px;
+}
+
 // Buttons
 .create-task-btn {
-  margin: 16px 0 24px 0;
-  display: block;
+  margin: 0;
+  /* Elimina margen para que esté alineado */
+}
+
+// Toolbar Actions
+.toolbar-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.toolbar-actions-left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.toolbar-actions-card {
+  margin-bottom: 24px;
+  padding: 16px 16px 8px 16px;
+  background: #f5f7fa;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(25, 118, 210, 0.16), 0 1.5px 6px rgba(25, 118, 210, 0.10);
+  border: none;
+  max-width: 100%;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+@media (max-width: 600px) {
+  .toolbar-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .toolbar-actions-left {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+  .toolbar-spacer {
+    display: none;
+  }
+  .create-task-btn {
+    width: 100%;
+    margin-top: 8px;
+  }
 }
 
 // Material Overrides
@@ -195,7 +307,7 @@ mat-card-title {
 
   .mat-form-field-suffix {
     display: flex;
-    flex-direction: row; // <-- Change from row-reverse to row
+    flex-direction: row;
     align-items: center;
     gap: 0;
   }
@@ -216,9 +328,121 @@ mat-card-title {
   display: flex;
   flex-direction: row;
   align-items: center;
+  gap: 2px;
 
   .clear-date-btn {
     margin-right: 4px;
+    margin-left: 0;
     padding: 0;
+    vertical-align: middle;
+    /* Optional: fine-tune vertical alignment */
+    position: relative;
+    top: 1px;
+  }
+}
+
+@media (max-width: 800px) {
+  .filters-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .filter-group, .sort-group {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .toolbar-divider {
+    display: none;
+  }
+  .hide-on-mobile {
+    display: none;
+  }
+}
+
+// Layout Container
+.layout-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 24px;
+  width: calc(100vw - 280px);
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  justify-content: center; /* Centra el contenido principal */
+  margin-left: 280px;
+  /* Deja espacio para el sidebar fijo */
+}
+
+.sidebar-filters {
+  position: absolute;
+  top: 72px;
+  left: 0;
+  height: calc(100vh - 72px);
+  z-index: 20;
+  background: #f5f7fa;
+  border-radius: 0 16px 16px 0;
+  box-shadow: 2px 0 16px rgba(25, 118, 210, 0.10);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 32px 16px 16px 16px;
+  border: none;
+}
+
+.filters-col {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.main-content {
+  max-width: 900px;
+  width: 100%;
+  margin-left: 0;
+  box-sizing: border-box;
+  flex: 1 1 0%;
+  min-width: 0;
+  padding-top: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+app-task-card, .task-table {
+  width: 100%;
+  max-width: 100%;
+}
+
+@media (max-width: 900px) {
+  .layout-container {
+    flex-direction: column;
+    gap: 0;
+    padding: 0 4px;
+    justify-content: flex-start;
+    margin-left: 0;
+  }
+  .sidebar-filters {
+    position: static;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 0 0 16px 16px;
+    flex-direction: row;
+    padding: 16px 8px;
+    box-shadow: 0 2px 12px rgba(25, 118, 210, 0.07);
+    margin-bottom: 16px;
+  }
+  .filters-col {
+    flex-direction: row;
+    gap: 12px;
+    width: 100%;
+  }
+  .main-content {
+    margin-left: 0;
+    width: 100vw;
+    max-width: 100vw;
+    align-items: stretch;
   }
 }

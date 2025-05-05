@@ -18,6 +18,7 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
 import { TaskCardComponent } from '../task-card/task-card.component';
 import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatTableModule } from '@angular/material/table';
 
 @Component({
   selector: 'app-task-list',
@@ -33,7 +34,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatFormFieldModule,
     TaskCardComponent,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatTableModule
   ],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss'
@@ -47,6 +49,7 @@ export class TaskListComponent implements OnInit {
   dueDateFilter: string = '';
   sortBy: string = 'dueDate';
   sortOrder: string = 'asc';
+  compactView: boolean = false;
 
   constructor(
     private tasksService: TasksService,
@@ -129,5 +132,19 @@ export class TaskListComponent implements OnInit {
     return filtered;
   }
 
+  isOverdue(task: Task): boolean {
+    if (!task.dueDate) return false;
+    const due = new Date(task.dueDate);
+    const now = new Date('2025-05-03'); // Use current date context
+    return due < now && task.status !== 'Done';
+  }
 
+  isDueSoon(task: Task): boolean {
+    if (!task.dueDate) return false;
+    const due = new Date(task.dueDate);
+    const now = new Date('2025-05-03');
+    const soon = new Date(now);
+    soon.setDate(now.getDate() + 3); // Next 3 days
+    return due >= now && due <= soon && task.status !== 'Done';
+  }
 }
