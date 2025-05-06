@@ -1,0 +1,38 @@
+<div class="login-container">
+  <mat-card>
+    <mat-card-title>Login</mat-card-title>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email" required>
+        @if (form.get('email')?.invalid && form.get('email')?.touched) {
+        <mat-error>
+          Valid email is required
+        </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Password</mat-label>
+        <input matInput formControlName="password" type="password" required>
+        @if (form.get('password')?.invalid && form.get('password')?.touched) {
+        <mat-error>
+          Password is required
+        </mat-error>
+
+        }
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || loading" class="full-width">
+        Login
+      </button>
+    </form>
+    @if(error) {
+    <mat-error>{{ error }}</mat-error>
+    }
+    <div class="switch-auth-link">
+      <span>Don't have an account?</span>
+      <a routerLink="/register">Register</a>
+    </div>
+  </mat-card>
+</div>

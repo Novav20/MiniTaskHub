@@ -15,7 +15,8 @@ import { TaskStatusLabels } from '../../models/task-status.enum';
       MatCardContent,
       MatCardTitle,
       MatCardModule,
-      MatIconModule
+      MatIconModule,
+      MatButton
     ],
   templateUrl: './task-card.component.html',
   styleUrl: './task-card.component.scss'

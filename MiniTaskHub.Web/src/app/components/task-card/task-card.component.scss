@@ -53,40 +53,47 @@
 }
 
 .status-badge {
-  display: inline-flex;
-  align-items: center;
+  display: inline-block;
   font-size: 1em;
   font-weight: 600;
-  border-radius: 8px;
+  border-radius: 16px;
   padding: 2px 12px;
   margin-right: 8px;
-  background: none;
+  background: #e3f2fd;
+  color: #1976d2;
 
   &.pending {
+    background: #fff8e1;
     color: #b8860b;
   }
 
   &.inprogress {
+    background: #e3f2fd;
     color: #1976d2;
   }
 
   &.done {
+    background: #e8f5e9;
     color: #388e3c;
   }
 }
 
 .due-date {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 4px;
   font-weight: 500;
 
-  &.overdue {
-    color: #d32f2f;
-  }
-
-  &.soon {
-    color: #fbc02d;
+  mat-icon {
+    vertical-align: middle;
+    font-size: 1.1em; // Optional: tweak for perfect alignment
+    margin-right: 2px;
+    line-height: 1;
+    height: 1.2em;
+    width: 1.2em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 

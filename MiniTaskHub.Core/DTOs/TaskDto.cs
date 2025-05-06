@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using MiniTaskHub.Core.Models.Enums;
 
-namespace MiniTaskHub.Core.Models;
+namespace MiniTaskHub.Core.DTOs;
 
 /// <summary>
 /// Represents a task item in the MiniTaskHub application. Used on POST method. 

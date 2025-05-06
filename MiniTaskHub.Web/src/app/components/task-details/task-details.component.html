@@ -1,9 +1,39 @@
 <section>
-    @if(errorMessage) {
-    <mat-card> color="warn">{{ errorMessage }}</mat-card>
-    }
-    @else if(task){
-        <button mat-stroked-button color="primary" routerLink="/" style="margin-bottom: 24px;">← Back to List</button>
-    <app-task-card [task]="task" [truncate]="false" cardClass="details-card"></app-task-card>
-    }
+  @if(errorMessage) {
+    <mat-card color="warn">{{ errorMessage }}</mat-card>
+  }
+  @else if(task){
+    <button mat-stroked-button color="primary" routerLink="/tasks" style="margin-bottom: 24px;">← Back to List</button>
+    <mat-card class="details-card">
+      <mat-card-header>
+        <mat-card-title class="details-title">{{ task.title }}</mat-card-title>
+        <mat-card-subtitle>
+          <span class="status-badge" [ngClass]="{
+            'pending': task.status === 'Pending',
+            'inprogress': task.status === 'InProgress',
+            'done': task.status === 'Done'
+          }">
+            {{ task.status }}
+          </span>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="details-section">
+          <mat-icon fontIcon="event" class="details-icon"></mat-icon>
+          <span class="details-label">Due Date:</span>
+          <span [ngClass]="{
+            'overdue': isOverdue(task),
+            'soon': isDueSoon(task)
+          }">{{ task.dueDate | date }}</span>
+        </div>
+        <div class="details-section">
+          <mat-icon fontIcon="description" class="details-icon"></mat-icon>
+          <span class="details-label">Description:</span>
+        </div>
+        <div class="details-description">
+          {{ task.description }}
+        </div>
+      </mat-card-content>
+    </mat-card>
+  }
 </section>

@@ -1,27 +1,31 @@
 <mat-card [ngClass]="['task-card', $any(cardClass), isOverdue(task) ? 'overdue' : '', compactView ? 'compact' : '']">
     <mat-card-title [ngClass]="{'truncate': truncate}">{{task.title}}</mat-card-title>
     <mat-card-content>
-        <span class="status-badge" [ngClass]="{
-            'pending': task.status === 'Pending',
-            'inprogress': task.status === 'InProgress',
-            'done': task.status === 'Done'
-        }">
-            {{TaskStatusLabels[task.status]}}
-        </span>
-        <span class="due-date" [ngClass]="{
-            'overdue': isOverdue(task),
-            'soon': isDueSoon(task)
-        }">
-            <mat-icon fontIcon="event" style="font-size: 1em; margin-right: 2px;"></mat-icon>
-            {{task.dueDate | date}}
-        </span>
+        <div>
+            <span class="status-badge" [ngClass]="{
+                'pending': task.status === 'Pending',
+                'inprogress': task.status === 'InProgress',
+                'done': task.status === 'Done'
+            }">
+                {{TaskStatusLabels[task.status]}}
+            </span>
+        </div>
+        <div>
+            <span class="due-date" [ngClass]="{
+                'overdue': isOverdue(task),
+                'soon': isDueSoon(task)
+            }">
+                <mat-icon fontIcon="event" style="font-size: 1em; margin-right: 2px;"></mat-icon>
+                {{task.dueDate | date}}
+            </span>
+        </div>
         <p class="task-description" [ngClass]="{'truncate': truncate}">{{task.description}}</p>
     </mat-card-content>
     @if(expandedView){
         <mat-card-actions class="expanded-actions">
-            <button mat-stroked-button color="primary" (click)="view.emit(task.id!)">Details</button>
-            <button mat-stroked-button color="accent" (click)="edit.emit(task)">Edit</button>
-            <button mat-stroked-button color="warn" (click)="delete.emit(task.id!)">Delete</button>
+            <button mat-raised-button color="primary" (click)="view.emit(task.id!)">Details</button>
+            <button mat-raised-button color="accent" (click)="edit.emit(task)">Edit</button>
+            <button mat-raised-button color="warn" (click)="delete.emit(task.id!)">Delete</button>
         </mat-card-actions>
     }
     @if(truncate && !expandedView){

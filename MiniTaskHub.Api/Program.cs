@@ -7,6 +7,10 @@ using MiniTaskHub.Api.Mappings;
 using MiniTaskHub.Core.Models;
 using MiniTaskHub.Core.Services;
 using MiniTaskHub.Infrastructure.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +39,30 @@ builder.Services.AddDbContext<TaskHubDbContext>(options =>
 
 // Register Application Services
 builder.Services.AddScoped<ITaskService, TaskService>();
+
+builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
+    .AddEntityFrameworkStores<TaskHubDbContext>()
+    .AddDefaultTokenProviders();
+
+var jwtSettings = builder.Configuration.GetSection("Jwt");
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings["Issuer"],
+        ValidAudience = jwtSettings["Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]!))
+    };
+});
 
 // Configure CORS for Angular Frontend
 builder.Services.AddCors(options =>
@@ -79,10 +107,11 @@ app.UseHttpsRedirection();
 
 app.UseCors("AllowFrontend");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapGet("/api/throw", (HttpContext _) => throw new Exception("An unexpected error occurred."));
+app.MapGet("/api/throw", _ => throw new Exception("An unexpected error occurred."));
 
 app.Run();

@@ -1,6 +1,8 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MiniTaskHub.Core.DTOs;
 using MiniTaskHub.Core.Models;
 using MiniTaskHub.Core.Services;
 
@@ -8,6 +10,7 @@ namespace MiniTaskHub.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TasksController(ITaskService taskService, IMapper mapper) : ControllerBase
     {
         private readonly ITaskService _taskService = taskService;

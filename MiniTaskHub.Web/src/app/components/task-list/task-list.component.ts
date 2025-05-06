@@ -16,10 +16,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { TaskCardComponent } from '../task-card/task-card.component';
-import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTableModule } from '@angular/material/table';
 
+const COMPACT_VIEW_KEY = 'taskList.compactView';
+
+// TODO: There is not persistence on expanded/compact view
 @Component({
   selector: 'app-task-list',
   imports: [
@@ -57,7 +60,13 @@ export class TaskListComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog
   ) { }
+
   ngOnInit(): void {
+    // Load persisted compactView preference
+    const persisted = localStorage.getItem(COMPACT_VIEW_KEY);
+    if (persisted !== null) {
+      this.compactView = persisted === 'true';
+    }
     this.loading = true;
     this.tasksService.getTasks().subscribe({
       next: (data: Task[]) => {
@@ -70,6 +79,12 @@ export class TaskListComponent implements OnInit {
       }
     });
   }
+
+  setCompactView(value: boolean) {
+    this.compactView = value;
+    localStorage.setItem(COMPACT_VIEW_KEY, String(value));
+  }
+
   viewTask(id: number) {
     this.router.navigate(['/tasks', id]);
   }

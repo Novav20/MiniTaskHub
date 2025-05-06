@@ -98,7 +98,7 @@ export class TaskFormComponent {
               next: () => {
                 this.loading = false;
                 this.resetForm();
-                this.router.navigate(['/']);
+                this.router.navigate(['tasks']);
               },
               error: (error) => {
                 this.loading = false;
@@ -113,7 +113,7 @@ export class TaskFormComponent {
           next: () => {
             this.loading = false;
             this.resetForm();
-            this.router.navigate(['/']);
+            this.router.navigate(['tasks']);
           },
           error: (error) => {
             this.loading = false;
@@ -125,7 +125,7 @@ export class TaskFormComponent {
   }
 
   onCancel() {
-    this.router.navigate(['/']);
+    this.router.navigate(['tasks']);
   }
 
   populateForm(task: Task) {
