@@ -110,7 +110,7 @@
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="['title', 'status', 'dueDate', 'actions']"></tr>
           <tr mat-row *matRowDef="let row; columns: ['title', 'status', 'dueDate', 'actions'];"
-              [ngClass]="{'overdue-row': isOverdue(row)}"></tr>
+            [ngClass]="{'overdue-row': isOverdue(row)}"></tr>
         </table>
       </ng-container>
       <ng-template #cardList>

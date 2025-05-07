@@ -17,6 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-task-form',
@@ -51,7 +52,8 @@ export class TaskFormComponent {
     private shared: SharedService,
     private route: ActivatedRoute,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {
     this.form = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
@@ -113,10 +115,12 @@ export class TaskFormComponent {
           next: () => {
             this.loading = false;
             this.resetForm();
+            this.snackBar.open('Task created successfully', 'Close', { duration: 2000 });
             this.router.navigate(['tasks']);
           },
           error: (error) => {
             this.loading = false;
+            this.snackBar.open(error.message || 'Error creating task', 'Close', { duration: 3000 });
             this.errorMessage = error.message;
           }
         });

@@ -7,8 +7,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatError } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
+
+// TODO: Improve errror feedback when user doesn't exist
 @Component({
   selector: 'app-login',
   standalone: true,

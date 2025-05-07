@@ -22,7 +22,6 @@ import { MatTableModule } from '@angular/material/table';
 
 const COMPACT_VIEW_KEY = 'taskList.compactView';
 
-// TODO: There is not persistence on expanded/compact view
 @Component({
   selector: 'app-task-list',
   imports: [

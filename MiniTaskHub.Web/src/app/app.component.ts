@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from './services/auth.service';
 import { Router } from '@angular/router';
 import { MatButton } from '@angular/material/button';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +22,8 @@ export class AppComponent {
   constructor(
     private loadingService: LoadingService,
     public auth: AuthService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
     this.loading$ = this.loadingService.loading$;
   }
@@ -32,4 +34,9 @@ export class AppComponent {
   isRegisterPage() {
     return this.router.url === '/register';
   }
+  logout() {
+    this.auth.logout();
+    this.snackBar.open('You have been logged out', 'Close', { duration: 3000 });
+  }
+
 }

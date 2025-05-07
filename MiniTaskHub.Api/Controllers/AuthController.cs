@@ -39,11 +39,11 @@ namespace MiniTaskHub.Api.Controllers
         {
             var user = await _userManager.FindByNameAsync(model.Email);
             if (user == null)
-                return Unauthorized(new ErrorResponse { Message = "Invalid authentication" });
+                return Unauthorized(new ErrorResponse { Message = "User not found" });
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, false);
             if (!result.Succeeded)
-                return Unauthorized(new ErrorResponse { Message = "Invalid authentication" });
+                return Unauthorized(new ErrorResponse { Message = "Incorrect email or password" });
 
             // 1. Create user claimes (info to put in the token)
             var claims = new[]{
