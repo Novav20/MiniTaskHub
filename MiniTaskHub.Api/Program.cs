@@ -65,10 +65,12 @@ builder.Services.AddAuthentication(options =>
 });
 
 // Configure CORS for Angular Frontend
+var allowedOrigins = builder.Configuration.GetValue<string>("AllowedOrigins")?.Split(';', StringSplitOptions.RemoveEmptyEntries) ?? [];
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
-        policy.WithOrigins("http://localhost:4200")
+        policy.WithOrigins(allowedOrigins)
               .AllowAnyHeader()
               .AllowAnyMethod());
 });
