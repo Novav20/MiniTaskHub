@@ -5,6 +5,8 @@
 appsettings.Development.json
 appsettings.json
 CodeSnippets
+publish
+publish.zip
 
 # Angular/Node
 **/node_modules/

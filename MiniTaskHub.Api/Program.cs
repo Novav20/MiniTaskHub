@@ -77,6 +77,13 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+// Apply pending migrations and create the database if it doesn't exist
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<TaskHubDbContext>();
+    db.Database.Migrate();
+}
+
 // ────── Configure the HTTP Request Pipeline ──────
 
 if (app.Environment.IsDevelopment())

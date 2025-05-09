@@ -1,4 +1,5 @@
 export const environment = {
     production: true,
-    apiUrl: 'https://localhost:7016' // Replace with your API URL
+    apiUrl: 'https://minitaskhub-api.azurewebsites.net'
+
 }
