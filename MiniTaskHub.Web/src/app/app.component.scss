@@ -10,6 +10,8 @@
     padding-bottom: 0.5rem;
     padding-left: 2rem;
     padding-right: 2rem;
+    min-width: 290px; // Added min-width
+    box-sizing: border-box; // Added box-sizing
 
     .logo {
         width: 48px;
@@ -20,6 +22,11 @@
         font-size: 2rem;
         color: #3182ce;
         margin: 0;
+        flex-shrink: 1; // Added to allow shrinking
+        min-width: 0; // Added to allow shrinking below content size
+        overflow: hidden; // Added to hide overflow
+        text-overflow: ellipsis; // Added for ellipsis
+        white-space: nowrap; // Added for ellipsis
     }
 
     .header-spacer {
@@ -59,4 +66,14 @@ a.active, button.active {
   align-items: center;
   justify-content: center;
   z-index: 9999;
+}
+
+.app-footer {
+  min-width: 290px;
+  box-sizing: border-box;
+  padding: 1rem;
+  text-align: center;
+  background-color: #f8f8f8; // Consistent with header-like elements
+  border-top: 1px solid #e0e0e0; // Similar to header bottom border
+  margin-top: auto; // Pushes footer to the bottom if content is short
 }
