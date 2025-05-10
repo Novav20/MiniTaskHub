@@ -1,6 +1,6 @@
 {
     "navigationFallback": {
-        "rewrite": "/browser/index.html",
+        "rewrite": "/index.html",
         "exclude": [
             "/assets/*",
             "/api/*"
@@ -8,8 +8,13 @@
     },
     "responseOverrides": {
         "404": {
-            "rewrite": "/browser/index.html",
+            "rewrite": "/index.html",
             "statusCode": 200
+        }
+    },
+    "globalHeaders": {
+        "/*": {
+          "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate"
         }
     }
 }
