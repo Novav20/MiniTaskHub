@@ -129,7 +129,28 @@ export class TaskListComponent implements OnInit {
   get filteredTasks() {
     let filtered = this.tasks.filter(task => {
       const statusMatch = !this.statusFilter || task.status === this.statusFilter;
-      const dueDateMatch = !this.dueDateFilter || task.dueDate <= this.dueDateFilter;
+      
+      const dueDateMatch = (() => {
+        if (!this.dueDateFilter) { // If dueDateFilter is an empty string, null, or undefined
+          return true; // No date filter applied
+        }
+        try {
+          const taskDueDate = new Date(task.dueDate);
+          // this.dueDateFilter is a Date object from MatDatepicker or a parsable date string
+          const filterDateSelected = new Date(this.dueDateFilter);
+
+          // Create a new Date object representing the END of the selected filter day
+          const filterDateEnd = new Date(filterDateSelected);
+          filterDateEnd.setHours(23, 59, 59, 999);
+
+          return taskDueDate <= filterDateEnd;
+        } catch (e) {
+          // Log error if date parsing fails, though dates from backend and datepicker should be valid
+          console.error('Error parsing dates for due date filter:', task.dueDate, this.dueDateFilter, e);
+          return false; // Exclude task if dates are unparsable
+        }
+      })();
+
       return statusMatch && dueDateMatch;
     });
 

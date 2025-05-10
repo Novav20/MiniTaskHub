@@ -12,9 +12,9 @@
               }
             </mat-select>
           </mat-form-field>
-          <mat-form-field appearance="fill" class="date-filter-field">
+          <mat-form-field appearance="fill" class="date-filter-field" [floatLabel]="'always'">
             <mat-label>Due before</mat-label>
-            <input matInput [matDatepicker]="picker" [(ngModel)]="dueDateFilter" readonly>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="dueDateFilter" readonly (click)="picker.open()" placeholder="mm/dd/yyyy">
             <span matSuffix class="date-filter-icons">
               @if(dueDateFilter){
               <button mat-icon-button class="clear-date-btn" aria-label="Clear" (click)="dueDateFilter = ''"
