@@ -8,26 +8,31 @@ namespace MiniTaskHub.Infrastructure.Services;
 public class TaskService(TaskHubDbContext context) : ITaskService
 {
     private readonly TaskHubDbContext _context = context;
-    public async Task<IEnumerable<TaskItem>> GetAllTasksAsync()
+    public async Task<IEnumerable<TaskItem>> GetAllTasksAsync(string userId)
     {
-        return await _context.Tasks.ToListAsync();
+        return await _context.Tasks
+            .Where(t => t.ApplicationUserId == userId)
+            .ToListAsync();
     }
 
-    public async Task<TaskItem?> GetTaskByIdAsync(int id)
+    public async Task<TaskItem?> GetTaskByIdAsync(int id, string userId)
     {
-        return await _context.Tasks.FindAsync(id);
+        return await _context.Tasks
+            .FirstOrDefaultAsync(t => t.ApplicationUserId == userId && t.Id == id);
     }
 
-    public async Task<TaskItem> CreateTaskAsync(TaskItem task)
+    public async Task<TaskItem> CreateTaskAsync(TaskItem task, string userId)
     {
+        task.ApplicationUserId = userId;
         _context.Tasks.Add(task);
         await _context.SaveChangesAsync();
         return task;
     }
 
-    public async Task<TaskItem?> UpdateTaskAsync(int id, TaskItem updatedTask)
+    public async Task<TaskItem?> UpdateTaskAsync(int id, TaskItem updatedTask, string userId)
     {
-        var task = await _context.Tasks.FindAsync(id);
+        var task = await _context.Tasks
+            .FirstOrDefaultAsync(t => t.Id == id && t.ApplicationUserId == userId);
         if (task is null) return null;
 
         task.Title = updatedTask.Title;
@@ -38,9 +43,9 @@ public class TaskService(TaskHubDbContext context) : ITaskService
         await _context.SaveChangesAsync();
         return task;
     }
-    public async Task DeleteTaskAsync(int id)
+    public async Task DeleteTaskAsync(int id, string userId)
     {
-        var task = await _context.Tasks.FindAsync(id);
+        var task = await _context.Tasks.FirstOrDefaultAsync(t => t.Id == id && t.ApplicationUserId == userId);
         if (task is not null)
         {
             _context.Tasks.Remove(task);

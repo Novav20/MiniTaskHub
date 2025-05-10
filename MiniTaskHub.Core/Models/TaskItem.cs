@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 using MiniTaskHub.Core.Models.Enums;
 
@@ -39,4 +40,9 @@ public class TaskItem
     /// The due date for the task.
     /// </summary>
     public DateTime DueDate { get; set; }
+
+    [Required]
+    public string ApplicationUserId { get; set; } = default!;
+    [ForeignKey("ApplicationUserId")]
+    public virtual ApplicationUser? ApplicationUser { get; set; }
 }

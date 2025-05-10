@@ -1,20 +1,30 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MiniTaskHub.Core.DTOs;
 using MiniTaskHub.Core.Models;
 using MiniTaskHub.Core.Services;
+using System.Security.Claims;
 
 namespace MiniTaskHub.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class TasksController(ITaskService taskService, IMapper mapper) : ControllerBase
+    public class TasksController(ITaskService taskService, IMapper mapper, UserManager<ApplicationUser> userManager) : ControllerBase
     {
         private readonly ITaskService _taskService = taskService;
         private readonly IMapper _mapper = mapper;
+        private readonly UserManager<ApplicationUser> _userManager = userManager;
+
+        private string GetCurrentUserId()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId)) throw new InvalidOperationException("User ID not found in token.");
+            return userId;
+        }
 
         /// <summary>
         /// Retrieves all tasks from the database.
@@ -28,7 +38,8 @@ namespace MiniTaskHub.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetTasks()
         {
-            var tasks = await _taskService.GetAllTasksAsync();
+            var userId = GetCurrentUserId();
+            var tasks = await _taskService.GetAllTasksAsync(userId);
             return Ok(tasks);
         }
 
@@ -47,8 +58,9 @@ namespace MiniTaskHub.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetTask(int id)
         {
-            var task = await _taskService.GetTaskByIdAsync(id);
-            if (task is null) return NotFound(new ErrorResponse { Message = $"Task with id {id} not found." });
+            var userId = GetCurrentUserId();
+            var task = await _taskService.GetTaskByIdAsync(id, userId);
+            if (task is null) return NotFound(new ErrorResponse { Message = $"Task with id {id} not found or not accesible." });
             return Ok(task);
         }
 
@@ -71,9 +83,9 @@ namespace MiniTaskHub.Api.Controllers
                 return BadRequest(new ErrorResponse { Message = "Task data cannot be null." });
             if (!ModelState.IsValid)
                 return BadRequest(new ErrorResponse { Message = "Validation failed.", Details = ModelState.ToString() });
-
+            var userId = GetCurrentUserId();
             var task = _mapper.Map<TaskItem>(taskDto);
-            var createdTask = await _taskService.CreateTaskAsync(task);
+            var createdTask = await _taskService.CreateTaskAsync(task, userId);
             return CreatedAtAction(nameof(GetTask), new { id = createdTask.Id }, createdTask);
         }
 
@@ -100,9 +112,10 @@ namespace MiniTaskHub.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(new ErrorResponse { Message = "Validation failed.", Details = ModelState.ToString() });
 
+            var userId = GetCurrentUserId();
             var task = _mapper.Map<TaskItem>(taskDto);
-            var updatedTask = await _taskService.UpdateTaskAsync(id, task);
-            if (updatedTask is null) return NotFound(new ErrorResponse { Message = $"Task with id {id} not found." });
+            var updatedTask = await _taskService.UpdateTaskAsync(id, task, userId);
+            if (updatedTask is null) return NotFound(new ErrorResponse { Message = $"Task with id {id} not found or not accesible." });
             return Ok(updatedTask);
         }
 
@@ -123,12 +136,13 @@ namespace MiniTaskHub.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteTask(int id)
         {
-            var task = await _taskService.GetTaskByIdAsync(id);
-            if (task is null) return NotFound(new ErrorResponse { Message = $"Task with id {id} not found." });
+            var userId = GetCurrentUserId();
+            var task = await _taskService.GetTaskByIdAsync(id, userId);
+            if (task is null) return NotFound(new ErrorResponse { Message = $"Task with id {id} not found or not accesible." });
 
             try
             {
-                await _taskService.DeleteTaskAsync(id);
+                await _taskService.DeleteTaskAsync(id, userId);
                 return NoContent(); // Successfully deleted
             }
             catch (DbUpdateConcurrencyException)
