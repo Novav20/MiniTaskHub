@@ -1,0 +1,15 @@
+{
+    "navigationFallback": {
+        "rewrite": "/browser/index.html",
+        "exclude": [
+            "/assets/*",
+            "/api/*"
+        ]
+    },
+    "responseOverrides": {
+        "404": {
+            "rewrite": "/browser/index.html",
+            "statusCode": 200
+        }
+    }
+}

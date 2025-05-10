@@ -35,7 +35,14 @@ builder.Services.AddSwaggerGen(options =>
 
 // Add Entity Framework Core with SQL Server
 builder.Services.AddDbContext<TaskHubDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+    sqlServerOptionsAction: sqlOptions =>
+    {
+        sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 10,
+            maxRetryDelay: TimeSpan.FromSeconds(30),
+            errorNumbersToAdd: null);
+    }));
 
 // Register Application Services
 builder.Services.AddScoped<ITaskService, TaskService>();

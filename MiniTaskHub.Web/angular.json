@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/mini-task-hub.web",
+            "outputPath": "dist/mini-task-hub.web/browser",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -29,7 +29,10 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              "src/favicon.ico",
+              "src/assets",
+              "src/staticwebapp.config.json"
             ],
             "styles": [
               "@angular/material/prebuilt-themes/azure-blue.css",
