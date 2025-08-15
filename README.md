@@ -19,7 +19,9 @@ A full-stack task management app built with:
 ```
 MiniTaskHub/ 
 ├── MiniTaskHub.sln # Solution file 
-├── MiniTaskHub.Api/ # .NET Web API 
+├── MiniTaskHub.Api/ # .NET Web API
+├── MiniTaskHub.Core/ # domain business
+├── MiniTaskHub.Infrastructure/ # Logic implementation, db connection 
 └── MiniTaskHub.Web/ # Angular frontend
 └── MiniTaskHub.Tests/ # Unit Tests
 ```
