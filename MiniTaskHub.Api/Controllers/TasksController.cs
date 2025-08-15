@@ -59,6 +59,7 @@ namespace MiniTaskHub.Api.Controllers
         public async Task<IActionResult> GetTask(int id)
         {
             var userId = GetCurrentUserId();
+            //TODO: consider a separate TaskResponseDto instead of TaskItem to decouple API and services
             var task = await _taskService.GetTaskByIdAsync(id, userId);
             if (task is null) return NotFound(new ErrorResponse { Message = $"Task with id {id} not found or not accesible." });
             return Ok(task);
