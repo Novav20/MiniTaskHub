@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Task } from '../../models/task.model';
+import { Task } from '../../../../shared/models/task.model';
+
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { TasksService } from '../../services/tasks.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatButton } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
+import { DateHelperService } from '../../../../core/services/date-helper.service';
 
 /**
  * Component for displaying the details of a single task.
@@ -30,7 +32,7 @@ export class TaskDetailsComponent implements OnInit {
    * Error message to display to the user.
    */
   errorMessage: string | null = null;
-  constructor(private route: ActivatedRoute, private tasksService: TasksService) { }
+  constructor(private route: ActivatedRoute, private tasksService: TasksService, public dateHelperService: DateHelperService) { }
 
   /**
    * Initializes the component.
@@ -47,32 +49,5 @@ export class TaskDetailsComponent implements OnInit {
         this.errorMessage = error.message;
       }
     });
-  }
-
-  // TODO: These methods are duplicated in other components. Refactor into a shared service.
-  /**
-   * Checks if a task is overdue.
-   * @param task The task to check.
-   * @returns True if the task is overdue, false otherwise.
-   */
-  isOverdue(task: Task): boolean {
-    if (!task.dueDate) return false;
-    const due = new Date(task.dueDate);
-    const now = new Date();
-    return due < now && task.status !== 'Done';
-  }
-
-  /**
-   * Checks if a task is due soon.
-   * @param task The task to check.
-   * @returns True if the task is due soon, false otherwise.
-   */
-  isDueSoon(task: Task): boolean {
-    if (!task.dueDate) return false;
-    const due = new Date(task.dueDate);
-    const now = new Date();
-    const soon = new Date(now);
-    soon.setDate(now.getDate() + 3);
-    return due >= now && due <= soon && task.status !== 'Done';
   }
 }

@@ -1,10 +1,10 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Task } from '../../models/task.model';
+import { Task } from '../../../../shared/models/task.model';
 import { TasksService } from '../../services/tasks.service';
 import { CommonModule } from '@angular/common';
-import { SharedService } from '../../services/shared.service';
+import { SharedService } from '../../../../shared/services/shared.service';
 import { Router } from '@angular/router';
-import { TaskStatus } from '../../models/task-status.enum';
+import { TaskStatus } from '../../../../shared/models/task-status.enum';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -14,11 +14,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
-import { TaskCardComponent } from '../task-card/task-card.component';
+import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
+import { TaskCardComponent } from '../../../../shared/components/task-card/task-card.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTableModule } from '@angular/material/table';
+import { DateHelperService } from '../../../../core/services/date-helper.service';
 
 const COMPACT_VIEW_KEY = 'taskList.compactView';
 
@@ -87,7 +88,8 @@ export class TaskListComponent implements OnInit {
     private tasksService: TasksService,
     private shared: SharedService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private dateHelperService: DateHelperService
   ) { }
 
   /**
@@ -237,10 +239,7 @@ export class TaskListComponent implements OnInit {
    * @returns True if the task is overdue, false otherwise.
    */
   isOverdue(task: Task): boolean {
-    if (!task.dueDate) return false;
-    const due = new Date(task.dueDate);
-    const now = new Date('2025-05-03'); // Use current date context
-    return due < now && task.status !== 'Done';
+    return this.dateHelperService.isOverdue(task);
   }
 
   /**
@@ -249,11 +248,6 @@ export class TaskListComponent implements OnInit {
    * @returns True if the task is due soon, false otherwise.
    */
   isDueSoon(task: Task): boolean {
-    if (!task.dueDate) return false;
-    const due = new Date(task.dueDate);
-    const now = new Date('2025-05-03');
-    const soon = new Date(now);
-    soon.setDate(now.getDate() + 3); // Next 3 days
-    return due >= now && due <= soon && task.status !== 'Done';
+    return this.dateHelperService.isDueSoon(task);
   }
 }

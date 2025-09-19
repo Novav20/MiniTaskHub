@@ -5,6 +5,7 @@ import { MatCardActions, MatCardContent, MatCardModule, MatCardTitle } from '@an
 import { MatButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { TaskStatusLabels } from '../../models/task-status.enum';
+import { DateHelperService } from '../../../core/services/date-helper.service';
 
 /**
  * Component for displaying a single task card.
@@ -63,30 +64,5 @@ export class TaskCardComponent {
    */
   @Input() expandedView = false;
 
-  // TODO: These methods are duplicated in task-list.component.ts. Refactor into a shared service.
-  /**
-   * Checks if a task is overdue.
-   * @param task The task to check.
-   * @returns True if the task is overdue, false otherwise.
-   */
-  isOverdue(task: Task): boolean {
-    if (!task.dueDate) return false;
-    const due = new Date(task.dueDate);
-    const now = new Date('2025-05-03'); // Use current date context
-    return due < now && task.status !== 'Done';
-  }
-
-  /**
-   * Checks if a task is due soon.
-   * @param task The task to check.
-   * @returns True if the task is due soon, false otherwise.
-   */
-  isDueSoon(task: Task): boolean {
-    if (!task.dueDate) return false;
-    const due = new Date(task.dueDate);
-    const now = new Date('2025-05-03');
-    const soon = new Date(now);
-    soon.setDate(now.getDate() + 3); // Next 3 days
-    return due >= now && due <= soon && task.status !== 'Done';
-  }
+  constructor(public dateHelperService: DateHelperService) { }
 }

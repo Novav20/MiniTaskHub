@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
-import { LoadingService } from './services/loading.service';
+import { LoadingService } from './core/services/loading.service';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { CommonModule } from '@angular/common';
-import { AuthService } from './services/auth.service';
+import { AuthService } from './features/auth/services/auth.service';
 import { Router } from '@angular/router';
 import { MatButton } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';

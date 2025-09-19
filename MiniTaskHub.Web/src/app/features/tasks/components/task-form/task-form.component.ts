@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { TaskStatus, TaskStatusLabels } from '../../models/task-status.enum';
-import { Task } from '../../models/task.model';
+import { TaskStatus, TaskStatusLabels } from '../../../../shared/models/task-status.enum';
+import { Task } from '../../../../shared/models/task.model';
 import { TasksService } from '../../services/tasks.service';
-import { SharedService } from '../../services/shared.service';
+import { SharedService } from '../../../../shared/services/shared.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
@@ -14,7 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -87,7 +87,7 @@ export class TaskFormComponent {
     });
 
     // Check if there's a task in the shared service
-    this.shared.taskToEdit$.subscribe(task => {
+    this.shared.taskToEdit$.subscribe((task: Task | null) => {
       if (task) {
         this.populateForm(task);
       }

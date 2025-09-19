@@ -22,8 +22,8 @@
           <mat-icon fontIcon="event" class="details-icon"></mat-icon>
           <span class="details-label">Due Date:</span>
           <span [ngClass]="{
-            'overdue': isOverdue(task),
-            'soon': isDueSoon(task)
+            'overdue': dateHelperService.isOverdue(task),
+            'soon': dateHelperService.isDueSoon(task)
           }">{{ task.dueDate | date }}</span>
         </div>
         <div class="details-section">
