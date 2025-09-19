@@ -12,7 +12,7 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  login(credentials: { email: string, password: string }): Observable<any> {
+  login(credentials: { email: string, password: string }): Observable<{ token: string }> {
     return this.http.post<{ token: string }>(`${this.apiUrl}/login`, credentials).pipe(
       tap(response => {
         localStorage.setItem('jwt', response.token);
@@ -20,8 +20,8 @@ export class AuthService {
     );
   }
 
-  register(data: { email: string, password: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, data);
+  register(data: { email: string, password: string }): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/register`, data);
   }
 
   logout() {

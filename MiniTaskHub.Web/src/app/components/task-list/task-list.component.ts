@@ -47,11 +47,11 @@ export class TaskListComponent implements OnInit {
   errorMessage: string | null = null;
   loading = false;
   taskStatusOptions = Object.values(TaskStatus);
-  statusFilter: string = '';
-  dueDateFilter: string = '';
-  sortBy: string = 'dueDate';
-  sortOrder: string = 'asc';
-  compactView: boolean = false;
+  statusFilter = '';
+  dueDateFilter = '';
+  sortBy = 'dueDate';
+  sortOrder = 'asc';
+  compactView = false;
 
   constructor(
     private tasksService: TasksService,

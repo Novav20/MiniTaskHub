@@ -53,3 +53,5 @@ Thumbs.db
 
 # Some temporal ignored files
 MiniTaskHub.Tests/ExceptionHandlingTests.cs
+
+ProjectSummary.md

@@ -27,11 +27,11 @@ export class TaskCardComponent {
   @Input() task!: Task;
   @Output() edit = new EventEmitter<Task>();
   @Output() delete = new EventEmitter<number>();
-  @Input() truncate: boolean = true;
+  @Input() truncate = true;
   @Output() view = new EventEmitter<number>();
   @Input() cardClass: string | string[] = '';
-  @Input() compactView: boolean = false;
-  @Input() expandedView: boolean = false;
+  @Input() compactView = false;
+  @Input() expandedView = false;
 
   isOverdue(task: Task): boolean {
     if (!task.dueDate) return false;

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -28,7 +28,7 @@ import { CommonModule } from '@angular/common';
 export class RegisterComponent {
   error: string | null = null;
   loading = false;
-  form: any;
+  form: FormGroup;
 
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {
 

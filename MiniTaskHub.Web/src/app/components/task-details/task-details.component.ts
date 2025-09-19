@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TaskCardComponent } from '../task-card/task-card.component';
+
 import { Task } from '../../models/task.model';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { TasksService } from '../../services/tasks.service';
