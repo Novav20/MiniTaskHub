@@ -19,6 +19,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+/**
+ * Component for creating and editing tasks.
+ */
 @Component({
   selector: 'app-task-form',
   imports: [
@@ -38,12 +41,33 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './task-form.component.scss'
 })
 export class TaskFormComponent {
+  /**
+   * The task form.
+   */
   form: FormGroup;
+  /**
+   * Whether the form is in edit mode.
+   */
   isEditMode = false;
+  /**
+   * The ID of the task being edited.
+   */
   editingTaskId: number | null = null;
+  /**
+   * The options for the task status dropdown.
+   */
   taskStatusOptions = Object.values(TaskStatus);
+  /**
+   * Error message to display to the user.
+   */
   errorMessage: string | null = null;
+  /**
+   * Whether the component is in a loading state.
+   */
   loading = false;
+  /**
+   * The labels for the task statuses.
+   */
   TaskStatusLabels = TaskStatusLabels;
 
   constructor(
@@ -82,6 +106,9 @@ export class TaskFormComponent {
     });
   }
 
+  /**
+   * Submits the task form.
+   */
   onSubmit() {
     if (this.form.valid) {
       const formValue = this.form.value;
@@ -128,10 +155,17 @@ export class TaskFormComponent {
     }
   }
 
+  /**
+   * Navigates back to the task list.
+   */
   onCancel() {
     this.router.navigate(['tasks']);
   }
 
+  /**
+   * Populates the form with the data of the task being edited.
+   * @param task The task to populate the form with.
+   */
   populateForm(task: Task) {
     this.form.patchValue({
       title: task.title,
@@ -143,6 +177,9 @@ export class TaskFormComponent {
     this.editingTaskId = task.id!;
   }
 
+  /**
+   * Resets the form to its initial state.
+   */
   resetForm() {
     this.form.reset({
       title: '',

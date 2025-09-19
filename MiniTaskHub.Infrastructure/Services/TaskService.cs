@@ -5,6 +5,9 @@ using MiniTaskHub.Core.Services;
 
 namespace MiniTaskHub.Infrastructure.Services;
 
+/// <summary>
+/// Provides services for managing task items.
+/// </summary>
 public class TaskService(TaskHubDbContext context) : ITaskService
 {
     private readonly TaskHubDbContext _context = context;

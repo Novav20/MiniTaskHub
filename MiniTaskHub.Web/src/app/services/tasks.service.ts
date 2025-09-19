@@ -4,6 +4,9 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 import { Task } from '../models/task.model';
 
+/**
+ * Service for handling tasks.
+ */
 @Injectable({
   providedIn: 'root'
 })
@@ -13,22 +16,38 @@ export class TasksService {
 
   constructor(private http: HttpClient) { }
 
-  // Get all tasks
+  /**
+   * Gets all tasks.
+   * @returns An observable with the list of tasks.
+   */
   getTasks(): Observable<Task[]> {
     return this.http.get<Task[]>(this.apiUrl).pipe(catchError(this.handleError));
   }
 
-  // Get a task by ID
+  /**
+   * Gets a task by its ID.
+   * @param id The ID of the task.
+   * @returns An observable with the task.
+   */
   getTaskById(id: number): Observable<Task> {
     return this.http.get<Task>(`${this.apiUrl}/${id}`).pipe(catchError(this.handleError));
   }
 
-  // Create a new task
+  /**
+   * Creates a new task.
+   * @param task The task to create.
+   * @returns An observable with the created task.
+   */
   createTask(task: Task): Observable<Task> {
     return this.http.post<Task>(this.apiUrl, task).pipe(catchError(this.handleError));
   }
 
-  // Update an existing task
+  /**
+   * Updates an existing task.
+   * @param id The ID of the task to update.
+   * @param task The updated task data.
+   * @returns An observable with the updated task.
+   */
   updateTask(id: number, task: Task): Observable<Task> {
     return this.http.put<Task>(`${this.apiUrl}/${id}`, task).pipe(
       // delay(1500),
@@ -36,11 +55,20 @@ export class TasksService {
     );
   }
 
-  // Delete a task
+  /**
+   * Deletes a task.
+   * @param id The ID of the task to delete.
+   * @returns An observable that completes when the task is deleted.
+   */
   deleteTask(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(catchError(this.handleError));
   }
 
+  /**
+   * Handles HTTP errors.
+   * @param error The HTTP error response.
+   * @returns An observable that throws an error with a user-friendly message.
+   */
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'An error occurred';
     if (error.error instanceof ErrorEvent) {

@@ -41,8 +41,15 @@ public class TaskItem
     /// </summary>
     public DateTime DueDate { get; set; }
 
+    /// <summary>
+    /// The foreign key of the user to whom the task is assigned.
+    /// </summary>
     [Required]
     public string ApplicationUserId { get; set; } = default!;
+
+    /// <summary>
+    /// The user to whom the task is assigned.
+    /// </summary>
     [ForeignKey("ApplicationUserId")]
     public virtual ApplicationUser? ApplicationUser { get; set; }
 }

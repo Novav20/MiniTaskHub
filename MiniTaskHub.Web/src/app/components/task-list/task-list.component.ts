@@ -22,6 +22,9 @@ import { MatTableModule } from '@angular/material/table';
 
 const COMPACT_VIEW_KEY = 'taskList.compactView';
 
+/**
+ * Component for displaying a list of tasks.
+ */
 @Component({
   selector: 'app-task-list',
   imports: [
@@ -43,14 +46,41 @@ const COMPACT_VIEW_KEY = 'taskList.compactView';
   styleUrl: './task-list.component.scss'
 })
 export class TaskListComponent implements OnInit {
+  /**
+   * The list of tasks.
+   */
   tasks: Task[] = [];
+  /**
+   * Error message to display to the user.
+   */
   errorMessage: string | null = null;
+  /**
+   * Whether the component is in a loading state.
+   */
   loading = false;
+  /**
+   * The options for the task status filter.
+   */
   taskStatusOptions = Object.values(TaskStatus);
+  /**
+   * The current status filter.
+   */
   statusFilter = '';
+  /**
+   * The current due date filter.
+   */
   dueDateFilter = '';
+  /**
+   * The current sort by option.
+   */
   sortBy = 'dueDate';
+  /**
+   * The current sort order.
+   */
   sortOrder = 'asc';
+  /**
+   * Whether to display the tasks in a compact view.
+   */
   compactView = false;
 
   constructor(
@@ -60,6 +90,9 @@ export class TaskListComponent implements OnInit {
     private dialog: MatDialog
   ) { }
 
+  /**
+   * Initializes the component.
+   */
   ngOnInit(): void {
     // Load persisted compactView preference
     const persisted = localStorage.getItem(COMPACT_VIEW_KEY);
@@ -79,25 +112,48 @@ export class TaskListComponent implements OnInit {
     });
   }
 
+  /**
+   * Sets the compact view.
+   * @param value Whether to use the compact view.
+   */
   setCompactView(value: boolean) {
     this.compactView = value;
     localStorage.setItem(COMPACT_VIEW_KEY, String(value));
   }
 
+  /**
+   * Navigates to the task details page.
+   * @param id The ID of the task to view.
+   */
   viewTask(id: number) {
     this.router.navigate(['/tasks', id]);
   }
+
+  /**
+   * Navigates to the create task page.
+   */
   createTask() {
     this.shared.setTaskToEdit(null);
     this.router.navigate(['/create']);
   }
 
+  /**
+   * Emits an event to request editing a task.
+   */
   @Output() editRequested = new EventEmitter<Task>();
+  /**
+   * Navigates to the edit task page.
+   * @param task The task to edit.
+   */
   editTask(task: Task) {
     this.shared.setTaskToEdit(task);
     this.router.navigate(['/edit/', task.id]);
   }
 
+  /**
+   * Deletes a task.
+   * @param id The ID of the task to delete.
+   */
   deleteTask(id: number) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
@@ -122,10 +178,16 @@ export class TaskListComponent implements OnInit {
     });
   }
 
+  /**
+   * Toggles the sort order.
+   */
   toggleSortOrder() {
     this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
   }
 
+  /**
+   * Gets the filtered and sorted list of tasks.
+   */
   get filteredTasks() {
     let filtered = this.tasks.filter(task => {
       const statusMatch = !this.statusFilter || task.status === this.statusFilter;
@@ -154,12 +216,14 @@ export class TaskListComponent implements OnInit {
       return statusMatch && dueDateMatch;
     });
 
+    // Sort the tasks by title or due date
     if (this.sortBy === 'title') {
       filtered = filtered.slice().sort((a, b) => a.title.localeCompare(b.title));
     } else if (this.sortBy === 'dueDate') {
       filtered = filtered.slice().sort((a, b) => a.dueDate.localeCompare(b.dueDate));
     }
 
+    // Reverse the order if descending
     if (this.sortOrder === 'desc') {
       filtered = filtered.reverse();
     }
@@ -167,6 +231,11 @@ export class TaskListComponent implements OnInit {
     return filtered;
   }
 
+  /**
+   * Checks if a task is overdue.
+   * @param task The task to check.
+   * @returns True if the task is overdue, false otherwise.
+   */
   isOverdue(task: Task): boolean {
     if (!task.dueDate) return false;
     const due = new Date(task.dueDate);
@@ -174,6 +243,11 @@ export class TaskListComponent implements OnInit {
     return due < now && task.status !== 'Done';
   }
 
+  /**
+   * Checks if a task is due soon.
+   * @param task The task to check.
+   * @returns True if the task is due soon, false otherwise.
+   */
   isDueSoon(task: Task): boolean {
     if (!task.dueDate) return false;
     const due = new Date(task.dueDate);

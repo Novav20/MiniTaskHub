@@ -9,6 +9,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatError } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 
+/**
+ * Component for the registration page.
+ */
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -26,8 +29,17 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
+  /**
+   * Error message to display to the user.
+   */
   error: string | null = null;
+  /**
+   * Whether the component is in a loading state.
+   */
   loading = false;
+  /**
+   * The registration form.
+   */
   form: FormGroup;
 
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {
@@ -38,6 +50,9 @@ export class RegisterComponent {
     });
   }
 
+  /**
+   * Submits the registration form.
+   */
   submit() {
     if (this.form.invalid) return;
     this.loading = true;

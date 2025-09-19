@@ -9,6 +9,9 @@ using MiniTaskHub.Core.Models;
 
 namespace MiniTaskHub.Api.Controllers
 {
+    /// <summary>
+    /// Handles user authentication, including registration and login.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController(
@@ -21,7 +24,17 @@ namespace MiniTaskHub.Api.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager = signInManager;
         private readonly IConfiguration _configuration = configuration;
 
+        /// <summary>
+        /// Registers a new user.
+        /// </summary>
+        /// <param name="model">The registration details.</param>
+        /// <returns>
+        /// HTTP 200 OK if registration is successful,
+        /// or HTTP 400 Bad Request if registration fails.
+        /// </returns>
         [HttpPost("register")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Register([FromBody] RegisterDto model)
         {
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
@@ -33,7 +46,17 @@ namespace MiniTaskHub.Api.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Authenticates a user and returns a JWT token.
+        /// </summary>
+        /// <param name="model">The login details.</param>
+        /// <returns>
+        /// HTTP 200 OK with the JWT token if login is successful,
+        /// or HTTP 401 Unauthorized if login fails.
+        /// </returns>
         [HttpPost("login")]
+        [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Login([FromBody] LoginDto model)
         {
             var user = await _userManager.FindByNameAsync(model.Email);

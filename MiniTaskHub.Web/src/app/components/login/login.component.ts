@@ -11,6 +11,9 @@ import { Router, RouterLink } from '@angular/router';
 
 
 // TODO: Improve errror feedback when user doesn't exist
+/**
+ * Component for the login page.
+ */
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -28,8 +31,17 @@ import { Router, RouterLink } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+  /**
+   * Error message to display to the user.
+   */
   error: string | null = null;
+  /**
+   * Whether the component is in a loading state.
+   */
   loading = false;
+  /**
+   * The login form.
+   */
   form: FormGroup;
 
   constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) {
@@ -39,6 +51,9 @@ export class LoginComponent {
     })
   }
 
+  /**
+   * Submits the login form.
+   */
   submit() {
     if (this.form.invalid) return;
     this.loading = true;
