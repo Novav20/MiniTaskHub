@@ -1,0 +1,12 @@
+<div class="card h-100 shadow-sm">
+  <div class="card-body">
+    <h5 class="card-title">{{ task.title }}</h5>
+    <p class="card-text text-muted">{{ task.description }}</p>
+    <span class="badge bg-info text-dark">{{ task.status }}</span>
+  </div>
+  <div class="card-footer d-flex justify-content-end gap-2">
+    <button class="btn btn-sm btn-outline-primary" (click)="onViewTaskDetails()">Details</button>
+    <button class="btn btn-sm btn-outline-secondary" (click)="onEditTask()">Edit</button>
+    <button class="btn btn-sm btn-outline-danger" (click)="onDeleteTask()">Delete</button>
+  </div>
+</div>

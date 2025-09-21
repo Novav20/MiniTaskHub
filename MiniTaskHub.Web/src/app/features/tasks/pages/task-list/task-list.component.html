@@ -1,19 +1,59 @@
-<div class="task-container">
-  <h1>My Tasks</h1>
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>My Tasks</h1>
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" id="viewToggle" [(ngModel)]="isCardView">
+      <label class="form-check-label" for="viewToggle">{{ isCardView ? 'Card View' : 'Table View' }}</label>
+    </div>
+  </div>
 
   @if (tasks.length > 0) {
-    <div class="task-list">
-      @for (task of tasks; track task.id) {
-        <div class="task-card">
-          <h2>{{ task.title }}</h2>
-          <p>{{ task.description }}</p>
-          <span>Status: {{ task.status }}</span>
-        </div>
-      }
-    </div>
+    @if (isCardView) {
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @for (task of tasks; track task.id) {
+          <div class="col">
+            <app-task-card
+              [task]="task"
+              (editTask)="editTask($event)"
+              (viewTaskDetails)="viewTaskDetails($event)"
+              (deleteTask)="deleteTask($event)">
+            </app-task-card>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="table-responsive">
+        <table class="table table-striped table-hover shadow-sm">
+          <thead>
+            <tr>
+              <th scope="col">Title</th>
+              <th scope="col">Description</th>
+              <th scope="col">Status</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (task of tasks; track task.id) {
+              <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.description }}</td>
+                <td><span class="badge bg-info text-dark">{{ task.status }}</span></td>
+                <td>
+                  <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-outline-primary" (click)="viewTaskDetails(task.id)">Details</button>
+                    <button class="btn btn-sm btn-outline-secondary" (click)="editTask(task.id)">Edit</button>
+                    <button class="btn btn-sm btn-outline-danger" (click)="deleteTask(task.id)">Delete</button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
   } @else {
-    <div class="no-tasks">
-      <p>You have no tasks yet. Great job!</p>
+    <div class="alert alert-info text-center" role="alert">
+      <p class="mb-0">You have no tasks yet. Great job!</p>
     </div>
   }
 </div>
