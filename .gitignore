@@ -56,3 +56,5 @@ MiniTaskHub.Tests/ExceptionHandlingTests.cs
 
 ProjectSummary.md
 FRONTEND_ANALYSIS.md
+# Gemini local context file
+GEMINI_CONTEXT.md
