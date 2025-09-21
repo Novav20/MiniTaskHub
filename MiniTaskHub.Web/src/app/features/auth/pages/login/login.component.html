@@ -1,36 +1,37 @@
-<div class="login-container">
+<div class="auth-container">
   <h2>Login</h2>
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="email">Email</label>
-      <input type="email" id="email" formControlName="email" class="form-control">
+      <input id="email" type="email" formControlName="email" class="form-control">
       <div class="validation-message-container">
         @if (loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)) {
-          <div>
-            @if (loginForm.get('email')?.errors?.['required']) {
-              <div>Email is required.</div>
-            }
-            @if (loginForm.get('email')?.errors?.['email']) {
-              <div>Invalid email format.</div>
-            }
-          </div>
+          @if (loginForm.get('email')?.errors?.['required']) {
+            <div>Email is required.</div>
+          }
+          @if (loginForm.get('email')?.errors?.['email']) {
+            <div>Invalid email format.</div>
+          }
         }
       </div>
     </div>
+
     <div class="form-group">
       <label for="password">Password</label>
-      <input type="password" id="password" formControlName="password" class="form-control">
+      <input id="password" type="password" formControlName="password" class="form-control">
       <div class="validation-message-container">
         @if (loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)) {
-          <div>
-            @if (loginForm.get('password')?.errors?.['required']) {
-              <div>Password is required.</div>
-            }
-          </div>
+          @if (loginForm.get('password')?.errors?.['required']) {
+            <div>Password is required.</div>
+          }
         }
       </div>
     </div>
-    <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary">Login</button>
-    <p class="redirect-link">Don't have an account? <a [routerLink]="['/auth/register']">Register here</a></p>
+
+    <button type="submit" class="btn btn-primary btn-submit" [disabled]="loginForm.invalid">Login</button>
   </form>
+
+  <div class="redirect-link">
+    Don't have an account? <a routerLink="/auth/register">Register here</a>
+  </div>
 </div>

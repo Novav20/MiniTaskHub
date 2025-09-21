@@ -1,1 +1,41 @@
 /* You can add global styles to this file, and also import other style files */
+@use 'variables'; // Import variables
+@use 'sass:color'; // Import color module
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: variables.$background-color; // Use variable
+  color: variables.$text-color; // Use variable
+}
+
+.btn {
+  display: inline-block;
+  padding: variables.$spacing-unit * 1.5 variables.$spacing-unit * 2; // Use variable
+  border-radius: variables.$border-radius-base; // Use variable
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+  background-color: variables.$primary-color; // Use variable
+  color: variables.$white-color; // Use variable
+  border: 1px solid variables.$primary-color; // Use variable
+}
+
+.btn-primary:hover {
+  background-color: color.adjust(variables.$primary-color, $lightness: -10%); // Use color.adjust
+}
+
+.btn-secondary {
+  background-color: variables.$secondary-color; // Use variable
+  color: variables.$white-color; // Use variable
+  border: 1px solid variables.$secondary-color; // Use variable
+}
+
+.btn-secondary:hover {
+  background-color: color.adjust(variables.$secondary-color, $lightness: -10%); // Use color.adjust
+}

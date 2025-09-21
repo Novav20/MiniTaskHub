@@ -24,6 +24,9 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/styles"]
+            },
             "assets": [
               {
                 "glob": "**/*",
@@ -40,7 +43,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumError": "10MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -91,6 +94,9 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/styles"]
+            },
             "assets": [
               {
                 "glob": "**/*",

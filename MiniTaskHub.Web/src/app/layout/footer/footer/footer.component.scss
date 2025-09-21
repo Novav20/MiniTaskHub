@@ -1,0 +1,9 @@
+@use 'variables';
+
+.app-footer {
+  background-color: variables.$header-footer-bg;
+  color: variables.$white-color;
+  padding: variables.$spacing-unit * 1.5 variables.$padding-base;
+  text-align: center;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+}

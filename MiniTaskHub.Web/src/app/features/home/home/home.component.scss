@@ -1,0 +1,28 @@
+@use 'variables';
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - variables.$padding-base * 2 - 100px); /* Adjust based on header/footer height */
+  text-align: center;
+  padding: variables.$padding-base;
+  background-color: variables.$background-color;
+  color: variables.$text-color;
+}
+
+.home-container h1 {
+  font-size: 2.5em;
+  margin-bottom: variables.$spacing-unit;
+  color: variables.$primary-color;
+}
+
+.home-container p {
+  font-size: 1.2em;
+  margin-bottom: variables.$padding-base * 3;
+}
+
+.home-actions a {
+  margin: 0 variables.$spacing-unit;
+}

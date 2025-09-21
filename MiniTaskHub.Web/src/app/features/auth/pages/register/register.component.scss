@@ -1,61 +1,73 @@
-.register-container {
+@use 'variables';
+@use 'sass:color';
+@use 'sass:math';
+
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - variables.$padding-base * 2 - 100px); /* Adjust based on header/footer height */
+  padding: variables.$padding-base;
+}
+
+.auth-container {
+  background-color: variables.$white-color;
+  padding: variables.$padding-base * 2;
+  border-radius: variables.$border-radius-base;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
   max-width: 400px;
-  margin: 50px auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  box-sizing: border-box;
+
+  h2 {
+    text-align: center;
+    margin-bottom: variables.$padding-base * 1.5;
+    color: variables.$primary-color;
+  }
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: variables.$padding-base;
 }
 
 label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: math.div(variables.$spacing-unit, 2); /* Use math.div */
+  font-weight: bold;
+  color: variables.$text-color;
 }
 
 .form-control {
   width: 100%;
-  padding: 8px;
+  padding: variables.$spacing-unit;
+  border: 1px solid #ccc;
+  border-radius: variables.$border-radius-base;
   box-sizing: border-box;
+  font-size: 1em;
 }
 
-.alert {
-  color: #721c24;
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
-  padding: 5px;
-  margin-top: 5px;
-  border-radius: 3px;
-}
-
-.btn {
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
-}
-
-.btn-primary:disabled {
-  background-color: #6c757d;
-  cursor: not-allowed;
+.btn-submit {
+  width: 100%;
+  padding: variables.$spacing-unit * 1.5;
+  font-size: 1.1em;
+  margin-top: variables.$padding-base;
 }
 
 .redirect-link {
-  margin-top: 15px;
+  margin-top: variables.$padding-base;
   text-align: center;
+  a {
+    color: variables.$primary-color;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 .validation-message-container {
   height: 1.2em; /* Fixed height to reserve space */
-  margin-top: 5px;
+  margin-top: math.div(variables.$spacing-unit, 2); /* Use math.div */
   font-size: 0.8em; /* Smaller font size */
   color: red; /* Red text color */
   opacity: 0; /* Initially hidden */

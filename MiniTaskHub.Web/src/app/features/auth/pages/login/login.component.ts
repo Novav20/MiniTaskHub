@@ -31,7 +31,7 @@ export class LoginComponent {
       this.authService.login(loginDto).subscribe({
         next: () => {
           console.log('Login successful!'); // Add this line
-          this.router.navigate(['/']); // Redirect to home page or dashboard
+          this.router.navigate(['/tasks']); // Redirect to tasks page
         },
         error: (err) => {
           console.error('Login failed', err);
