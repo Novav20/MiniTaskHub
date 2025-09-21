@@ -1,4 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { TaskService } from '../../../../core/services/task.service';
 import { TaskItem } from '../../../../core/models/task.model';
 
@@ -15,6 +16,7 @@ import { TaskCardComponent } from '../../../../shared/components/task-card/task-
 })
 export class TaskListComponent implements OnInit {
   private taskService = inject(TaskService);
+  private router = inject(Router);
   
   tasks: TaskItem[] = [];
   isCardView: boolean = true;
@@ -27,7 +29,6 @@ export class TaskListComponent implements OnInit {
     this.taskService.getAllTasks().subscribe({
       next: (tasks: TaskItem[]) => {
         this.tasks = tasks;
-        console.log('Tasks loaded:', this.tasks);
       },
       error: (err: any) => {
         console.error('Error loading tasks:', err);
@@ -35,15 +36,16 @@ export class TaskListComponent implements OnInit {
     });
   }
 
-  // Placeholder methods for actions
+  createNewTask(): void {
+    this.router.navigate(['/tasks/new']);
+  }
+
   editTask(id: number): void {
-    console.log('Edit task:', id);
-    // Implement navigation to edit form
+    this.router.navigate(['/tasks/edit', id]);
   }
 
   viewTaskDetails(id: number): void {
-    console.log('View task details:', id);
-    // Implement navigation to task details page
+    this.router.navigate(['/tasks', id]);
   }
 
   deleteTask(id: number): void {
