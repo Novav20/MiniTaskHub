@@ -1,1 +1,19 @@
-<p>task-list works!</p>
+<div class="task-container">
+  <h1>My Tasks</h1>
+
+  @if (tasks.length > 0) {
+    <div class="task-list">
+      @for (task of tasks; track task.id) {
+        <div class="task-card">
+          <h2>{{ task.title }}</h2>
+          <p>{{ task.description }}</p>
+          <span>Status: {{ task.status }}</span>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="no-tasks">
+      <p>You have no tasks yet. Great job!</p>
+    </div>
+  }
+</div>
