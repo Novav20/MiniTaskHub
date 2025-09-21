@@ -1,0 +1,24 @@
+<div class="container mt-4">
+  @if (task) {
+    <div class="card shadow-sm">
+      <div class="card-header bg-primary text-white">
+        <h2 class="mb-0">Task Details: {{ task.title }}</h2>
+      </div>
+      <div class="card-body">
+        <p class="card-text"><strong>Description:</strong> {{ task.description }}</p>
+        <p class="card-text"><strong>Status:</strong> <span class="badge bg-info text-dark">{{ task.status }}</span></p>
+        <p class="card-text"><strong>Due Date:</strong> {{ task.dueDate | date:'mediumDate' }}</p>
+      </div>
+      <div class="card-footer d-flex justify-content-end gap-2">
+        <button class="btn btn-outline-secondary" [routerLink]="['/tasks']">Back to List</button>
+      </div>
+    </div>
+  } @else {
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <p class="card-text">Loading task details or task not found...</p>
+        <button class="btn btn-outline-secondary" [routerLink]="['/tasks']">Back to List</button>
+      </div>
+    </div>
+  }
+</div>

@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TaskItemStatus, TaskItem, TaskDto } from '../../../../core/models/task.model';
@@ -17,6 +17,7 @@ export class TaskFormComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private taskService = inject(TaskService);
+  private location = inject(Location);
 
   taskForm!: FormGroup;
   taskItemStatusOptions = Object.values(TaskItemStatus);
@@ -64,7 +65,7 @@ export class TaskFormComponent implements OnInit {
         this.taskService.updateTask(this.taskId, taskDto).subscribe({
           next: () => {
             console.log('Task updated successfully!');
-            this.router.navigate(['/tasks']);
+            this.location.back(); // Go back after update
           },
           error: (err: any) => {
             console.error('Error updating task:', err);
@@ -75,7 +76,7 @@ export class TaskFormComponent implements OnInit {
         this.taskService.createTask(taskDto).subscribe({
           next: () => {
             console.log('Task created successfully!');
-            this.router.navigate(['/tasks']);
+            this.location.back(); // Go back after creation
           },
           error: (err: any) => {
             console.error('Error creating task:', err);
@@ -86,5 +87,9 @@ export class TaskFormComponent implements OnInit {
       console.log('Form is invalid');
       this.taskForm.markAllAsTouched();
     }
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }

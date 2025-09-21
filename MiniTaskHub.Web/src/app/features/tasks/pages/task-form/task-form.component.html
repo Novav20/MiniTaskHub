@@ -56,7 +56,8 @@
           </div>
         </div>
 
-        <button type="submit" class="btn btn-primary" [disabled]="taskForm.invalid">Save Task</button>
+        <button type="submit" class="btn btn-primary me-2" [disabled]="taskForm.invalid">Save Task</button>
+        <button type="button" class="btn btn-secondary" (click)="goBack()">Cancel</button>
       </form>
     </div>
   </div>

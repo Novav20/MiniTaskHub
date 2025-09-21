@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { TaskListComponent } from './pages/task-list/task-list.component';
 import { TaskFormComponent } from './pages/task-form/task-form.component';
+import { TaskDetailsComponent } from './pages/task-details/task-details.component';
 
 export const TASKS_ROUTES: Routes = [
   {
@@ -17,9 +18,6 @@ export const TASKS_ROUTES: Routes = [
   },
   {
     path: ':id',
-    // This will be for TaskDetailsComponent later
-    // For now, it can redirect or show a placeholder
-    redirectTo: '', // Redirect to task list for now
-    pathMatch: 'full'
+    component: TaskDetailsComponent
   }
 ];
