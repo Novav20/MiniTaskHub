@@ -1,1 +1,11 @@
 <router-outlet></router-outlet>
+
+@if (currentNotification) {
+  <app-notification
+    [message]="currentNotification.message"
+    [type]="currentNotification.type"
+    [autoClose]="currentNotification.autoClose ?? 0"
+    [dismissible]="currentNotification.dismissible ?? true"
+    (dismissed)="onNotificationDismissed()">
+  </app-notification>
+}

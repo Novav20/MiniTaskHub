@@ -5,6 +5,7 @@
 html, body {
   height: 100%;
   margin: 0;
+  min-width: 320px; /* Ensure horizontal scroll for extremely small viewports */
   font-family: Arial, sans-serif;
   background-color: variables.$background-color; // Use variable
   color: variables.$text-color; // Use variable

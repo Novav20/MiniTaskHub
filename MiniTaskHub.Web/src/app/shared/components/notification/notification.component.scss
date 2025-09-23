@@ -1,0 +1,24 @@
+:host {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1050; /* Bootstrap modal z-index is 1050, so notifications should be on top */
+  width: 100%;
+  max-width: 350px; /* Limit width on larger screens */
+
+  /* Optional: Add some animation */
+  .alert {
+    animation: slideInRight 0.3s ease-out;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
