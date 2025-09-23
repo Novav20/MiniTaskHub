@@ -1,18 +1,100 @@
 <div class="container mt-4">
   @if (task) {
-    <div class="card shadow-sm">
-      <div class="card-header bg-primary text-white">
-        <h2 class="mb-0">Task Details: {{ task.title }}</h2>
+    <form [formGroup]="taskForm" (ngSubmit)="saveEdit()">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <!-- Title -->
+          @if (isEditing) {
+            <h2 class="mb-0">Editing Task</h2>
+          } @else {
+            <h2 class="mb-0">Task Details: {{ task.title }}</h2>
+          }
+        </div>
+        <div class="card-body">
+
+          <!-- Title Field -->
+          <div class="mb-3">
+            <label for="title" class="form-label"><strong>Title</strong></label>
+            @if (isEditing) {
+              <input type="text" id="title" formControlName="title" class="form-control"
+                    [class.is-invalid]="taskForm.get('title')?.invalid && (taskForm.get('title')?.dirty || taskForm.get('title')?.touched)">
+              <div class="validation-message-container">
+                @if (taskForm.get('title')?.invalid && (taskForm.get('title')?.dirty || taskForm.get('title')?.touched)) {
+                  <div>@if (taskForm.get('title')?.errors?.['required']) { Title is required. }</div>
+                  <div>@if (taskForm.get('title')?.errors?.['minlength']) { Title must be at least 3 characters. }</div>
+                  <div>@if (taskForm.get('title')?.errors?.['maxlength']) { Title cannot exceed 100 characters. }</div>
+                }
+              </div>
+            } @else {
+              <p class="card-text">{{ task.title }}</p>
+            }
+          </div>
+
+          <!-- Description Field -->
+          <div class="mb-3">
+            <label for="description" class="form-label"><strong>Description</strong></label>
+            @if (isEditing) {
+              <textarea id="description" formControlName="description" class="form-control" rows="3"
+                        [class.is-invalid]="taskForm.get('description')?.invalid && (taskForm.get('description')?.dirty || taskForm.get('description')?.touched)"></textarea>
+              <div class="validation-message-container">
+                @if (taskForm.get('description')?.invalid && (taskForm.get('description')?.dirty || taskForm.get('description')?.touched)) {
+                  <div>@if (taskForm.get('description')?.errors?.['minlength']) { Description must be at least 3 characters. }</div>
+                  <div>@if (taskForm.get('description')?.errors?.['maxlength']) { Description cannot exceed 500 characters. }</div>
+                }
+              </div>
+            } @else {
+              <p class="card-text">{{ task.description || 'No description provided.' }}</p>
+            }
+          </div>
+
+          <!-- Status Field -->
+          <div class="mb-3">
+            <label for="status" class="form-label"><strong>Status</strong></label>
+            @if (isEditing) {
+              <select id="status" formControlName="status" class="form-select"
+                      [class.is-invalid]="taskForm.get('status')?.invalid && (taskForm.get('status')?.dirty || taskForm.get('status')?.touched)">
+                @for (statusOption of taskItemStatusOptions; track statusOption) {
+                  <option [value]="statusOption">{{ statusOption }}</option>
+                }
+              </select>
+              <div class="validation-message-container">
+                @if (taskForm.get('status')?.invalid && (taskForm.get('status')?.dirty || taskForm.get('status')?.touched)) {
+                  <div>@if (taskForm.get('status')?.errors?.['required']) { Status is required. }</div>
+                }
+              </div>
+            } @else {
+              <p><span class="badge bg-info text-dark">{{ task.status }}</span></p>
+            }
+          </div>
+
+          <!-- Due Date Field -->
+          <div class="mb-3">
+            <label for="dueDate" class="form-label"><strong>Due Date</strong></label>
+            @if (isEditing) {
+              <input type="date" id="dueDate" formControlName="dueDate" class="form-control"
+                    [class.is-invalid]="taskForm.get('dueDate')?.invalid && (taskForm.get('dueDate')?.dirty || taskForm.get('dueDate')?.touched)">
+              <div class="validation-message-container">
+                @if (taskForm.get('dueDate')?.invalid && (taskForm.get('dueDate')?.dirty || taskForm.get('dueDate')?.touched)) {
+                  <div>@if (taskForm.get('dueDate')?.errors?.['required']) { Due Date is required. }</div>
+                }
+              </div>
+            } @else {
+              <p class="card-text">{{ task.dueDate | date:'mediumDate' }}</p>
+            }
+          </div>
+
+        </div>
+        <div class="card-footer d-flex justify-content-end gap-2">
+          @if (isEditing) {
+            <button type="submit" class="btn btn-primary" [disabled]="taskForm.invalid">Save</button>
+            <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
+          } @else {
+            <button type="button" class="btn btn-primary" (click)="startEdit()">Edit</button>
+            <button type="button" class="btn btn-outline-secondary" [routerLink]="['/tasks']">Back to List</button>
+          }
+        </div>
       </div>
-      <div class="card-body">
-        <p class="card-text"><strong>Description:</strong> {{ task.description }}</p>
-        <p class="card-text"><strong>Status:</strong> <span class="badge bg-info text-dark">{{ task.status }}</span></p>
-        <p class="card-text"><strong>Due Date:</strong> {{ task.dueDate | date:'mediumDate' }}</p>
-      </div>
-      <div class="card-footer d-flex justify-content-end gap-2">
-        <button class="btn btn-outline-secondary" [routerLink]="['/tasks']">Back to List</button>
-      </div>
-    </div>
+    </form>
   } @else {
     <div class="card shadow-sm">
       <div class="card-body">
