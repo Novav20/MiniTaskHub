@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { LoginDto, RegisterDto, AuthResponse } from '../models/auth.model';
 import { environment } from '../../../environments/environment';
@@ -12,11 +12,17 @@ export class AuthService {
   private readonly TOKEN_KEY = 'mini-task-hub-token';
   private apiUrl = `${environment.apiUrl}/auth`;
 
-  constructor(private http: HttpClient) { }
+  private http = inject(HttpClient);
+
+  private isAuthenticated = new BehaviorSubject<boolean>(this.isLoggedIn());
+  public isAuthenticated$ = this.isAuthenticated.asObservable();
 
   login(loginDto: LoginDto): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, loginDto).pipe(
-      tap(response => this.setToken(response.token))
+      tap(response => {
+        this.setToken(response.token);
+        this.isAuthenticated.next(true);
+      })
     );
   }
 
@@ -26,6 +32,7 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem(this.TOKEN_KEY);
+    this.isAuthenticated.next(false);
   }
 
   getToken(): string | null {
@@ -40,3 +47,4 @@ export class AuthService {
     localStorage.setItem(this.TOKEN_KEY, token);
   }
 }
+
