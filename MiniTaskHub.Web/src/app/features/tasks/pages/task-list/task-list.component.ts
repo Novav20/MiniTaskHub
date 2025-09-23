@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TaskService } from '../../../../core/services/task.service';
 import { TaskItem } from '../../../../core/models/task.model';
@@ -6,20 +6,24 @@ import { TaskItem } from '../../../../core/models/task.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TaskCardComponent } from '../../../../shared/components/task-card/task-card.component';
+import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, TaskCardComponent],
+  imports: [CommonModule, FormsModule, TaskCardComponent, ConfirmDialogComponent],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss'
 })
 export class TaskListComponent implements OnInit {
+  @ViewChild('deleteConfirmDialog') private dialog!: ConfirmDialogComponent;
+
   private taskService = inject(TaskService);
   private router = inject(Router);
-  
+
   tasks: TaskItem[] = [];
   isCardView: boolean = true;
+  taskToDeleteId: number | null = null;
 
   ngOnInit(): void {
     this.loadTasks();
@@ -49,7 +53,28 @@ export class TaskListComponent implements OnInit {
   }
 
   deleteTask(id: number): void {
-    console.log('Delete task:', id);
-    // Implement delete logic with confirmation
+    this.taskToDeleteId = id;
+    this.dialog.show();
+  }
+
+  onDeleteConfirm(): void {
+    if (this.taskToDeleteId) {
+      this.taskService.deleteTask(this.taskToDeleteId).subscribe({
+        next: () => {
+          // Refresh the list or remove the item from the array
+          this.tasks = this.tasks.filter(t => t.id !== this.taskToDeleteId);
+          this.taskToDeleteId = null;
+        },
+        error: (err) => {
+          console.error('Error deleting task', err);
+          // Optionally, show an error message to the user
+          this.taskToDeleteId = null;
+        }
+      });
+    }
+  }
+
+  onDeleteCancel(): void {
+    this.taskToDeleteId = null;
   }
 }
