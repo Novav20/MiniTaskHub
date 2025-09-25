@@ -59,13 +59,22 @@ export class TaskDetailsComponent implements OnInit {
   getBadgeClass(status: TaskItemStatus): string {
     switch (status) {
       case TaskItemStatus.Pending:
-        return 'text-bg-secondary';
+        return 'badge-glass-pending';
       case TaskItemStatus.InProgress:
-        return 'text-bg-primary';
+        return 'badge-glass-in-progress';
       case TaskItemStatus.Done:
-        return 'text-bg-success';
+        return 'badge-glass-done';
       default:
-        return 'text-bg-light';
+        return 'badge-glass-pending'; // A sensible default
+    }
+  }
+
+  getBadgeText(status: TaskItemStatus): string {
+    switch (status) {
+      case TaskItemStatus.InProgress:
+        return 'In Progress';
+      default:
+        return status; // For Pending, Done, etc., return as is
     }
   }
 

@@ -1,27 +1,41 @@
 /* You can add global styles to this file, and also import other style files */
-
-
-// 1. Imports
-// Import our custom-defined variables first.
+@use 'sass:color';
 @use './styles/variables' as variables;
 
-// 2. Bootstrap Variable Overrides
-// Override Bootstrap's default color map *before* importing Bootstrap SCSS.
-// This is required to ensure Bootstrap components use our custom color theme.
-$theme-colors: (
-  "primary": variables.$primary,
-  "secondary": variables.$secondary,
-  "success": variables.$success,
-  "info": variables.$info,
-  "warning": variables.$warning,
-  "danger": variables.$danger,
-  "light": variables.$light,
-  "dark": variables.$body-color
-);
-
-// 3. Bootstrap Import
-// Import the entire Bootstrap SCSS framework now that variables are overridden.
+// Custom Bootstrap theme
 @use "bootstrap/scss/bootstrap";
+
+// Glassmorphism badge styles
+.badge-glass-pending,
+.badge-glass-in-progress,
+.badge-glass-done {
+  backdrop-filter: blur(5px);
+  --bs-badge-font-size: 0.8em;
+  --bs-badge-padding-y: 0.4em;
+  --bs-badge-padding-x: 0.7em;
+  border-radius: 0.5rem; // Slightly rounded corners
+  font-weight: 600; // Bolder text
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3); // Subtle glow
+}
+
+.badge-glass-pending {
+  background-color: rgba(var(--bs-secondary-rgb), 0.25);
+  border: 1px solid color.adjust(rgba(variables.$secondary, 0.3), $lightness: -10%);
+  color: color.adjust(variables.$secondary, $lightness: -20%);
+}
+
+.badge-glass-in-progress {
+  background-color: rgba(var(--bs-primary-rgb), 0.25);
+  border: 1px solid color.adjust(rgba(variables.$primary, 0.3), $lightness: -10%);
+  color: color.adjust(variables.$primary, $lightness: -20%);
+}
+
+.badge-glass-done {
+  background-color: rgba(var(--bs-success-rgb), 0.25);
+  border: 1px solid color.adjust(rgba(variables.$success, 0.3), $lightness: -10%);
+  color: color.adjust(variables.$success, $lightness: -20%);
+}
+
 
 // Import a modern font from Google Fonts for a clean, readable UI.
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');

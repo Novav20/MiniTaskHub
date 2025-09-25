@@ -2,25 +2,83 @@
 @use 'sass:color';
 
 :host {
+  display: block;
+  min-height: 100vh;
+}
+
+.login-page-wrapper {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  // Use a subtle gradient from the theme for the background
-  background: linear-gradient(120deg, color.adjust(variables.$light, $lightness: 5%), color.adjust(variables.$secondary, $lightness: 25%));
-  min-height: 100%; // Ensure it covers the full viewport height
-  padding: 2rem;
+  min-height: 100vh;
+  width: 100%;
+
+  .login-image-section {
+    flex: 1; // Takes up half the space on large screens
+    background: linear-gradient(135deg, variables.$primary, variables.$secondary); // Placeholder image
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    padding: 2rem;
+
+    .image-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.3); // Semi-transparent dark overlay
+      z-index: 1;
+    }
+
+    .image-content {
+      position: relative;
+      z-index: 2;
+      max-width: 80%;
+
+      h1 {
+        font-size: 2.8em;
+        margin-bottom: 1rem;
+        font-weight: 700;
+      }
+
+      p {
+        font-size: 1.3em;
+        opacity: 0.9;
+      }
+    }
+
+    .login-page-main-logo {
+      height: 80px;
+      width: auto;
+      margin-bottom: 2rem;
+    }
+  }
+
+  .login-form-section {
+    flex: 1; // Takes up half the space on large screens
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+
+    // Mobile background for form section
+    @media (max-width: 767.98px) {
+      background: linear-gradient(120deg, color.adjust(variables.$light, $lightness: 5%), color.adjust(variables.$secondary, $lightness: 25%));
+    }
+  }
 }
 
 .card {
-  // Modern card with a subtle shadow and our theme's border radius
   border: none;
   border-radius: variables.$border-radius * 2;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  overflow: hidden; // Ensures the gradient in the header doesn't spill out
+  width: 100%;
+  max-width: 450px; // Limit card width on larger screens
 }
 
 .card-header {
-  // A vibrant header for the login card
   background: linear-gradient(90deg, variables.$primary, variables.$secondary);
   color: white;
   padding: 1.5rem;
@@ -42,7 +100,6 @@
 }
 
 .btn-primary {
-  // Make the primary button stand out with a gradient and shadow
   background: linear-gradient(90deg, variables.$primary, variables.$secondary);
   border: none;
   padding: 0.75rem;
@@ -62,7 +119,7 @@
 }
 
 .validation-message-container {
-  min-height: 1.5em; // Reserve space to prevent layout shifts
+  min-height: 1.5em;
   div {
     font-size: 0.875em;
     color: variables.$danger;
@@ -77,4 +134,11 @@
   &:hover {
     text-decoration: underline;
   }
+}
+
+.login-logo {
+  height: 50px;
+  width: auto;
+  display: block;
+  margin: 0 auto;
 }

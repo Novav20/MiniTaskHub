@@ -6,18 +6,14 @@
         <fa-icon [icon]="faPlus" class="me-2"></fa-icon>New Task
       </button>
       
-      <!-- Custom View Switcher -->
-      <div class="view-switcher btn-group" role="group" aria-label="View switcher">
-        <input type="radio" class="btn-check" name="view-switch" id="card-view-btn" autocomplete="off" [checked]="isCardView" (change)="isCardView = true">
-        <label class="btn btn-outline-primary" for="card-view-btn" [class.active]="isCardView">
-          <fa-icon [icon]="faIdCard" title="Card view"></fa-icon>
-        </label>
-
-        <input type="radio" class="btn-check" name="view-switch" id="table-view-btn" autocomplete="off" [checked]="!isCardView" (change)="isCardView = false">
-        <label class="btn btn-outline-primary" for="table-view-btn" [class.active]="!isCardView">
-          <fa-icon [icon]="faTable" title="Table view"></fa-icon>
-        </label>
-      </div>
+      <!-- View Toggle Button -->
+      <button class="btn btn-outline-primary" (click)="toggleView()" [title]="isCardView ? 'Switch to table view' : 'Switch to card view'">
+        @if (isCardView) {
+          <fa-icon [icon]="faTable"></fa-icon>
+        } @else {
+          <fa-icon [icon]="faIdCard"></fa-icon>
+        }
+      </button>
     </div>
   </div>
 
@@ -45,6 +41,7 @@
               <th scope="col">Title</th>
               <th scope="col">Description</th>
               <th scope="col">Status</th>
+              <th scope="col">Due Date</th>
               <th scope="col" class="text-center">Actions</th>
             </tr>
           </thead>
@@ -53,7 +50,8 @@
               <tr>
                 <td>{{ task.title }}</td>
                 <td>{{ task.description }}</td>
-                <td><span class="badge" [ngClass]="getBadgeClass(task.status)">{{ task.status }}</span></td>
+                <td><span class="badge" [ngClass]="getBadgeClass(task.status)">{{ getBadgeText(task.status) }}</span></td>
+                <td>{{ task.dueDate | date: 'mediumDate' }}</td>
                 <td>
                   <div class="d-flex justify-content-center gap-2">
                     <button class="btn btn-sm btn-outline-info" (click)="viewTaskDetails(task.id)" title="Details">
@@ -85,16 +83,17 @@
             <div [id]="'collapse-' + task.id" class="accordion-collapse collapse" [attr.aria-labelledby]="'heading-' + task.id" data-bs-parent="#taskAccordion">
               <div class="accordion-body">
                 <p><strong>Description:</strong> {{ task.description || 'N/A' }}</p>
-                <p><strong>Status:</strong> <span class="badge" [ngClass]="getBadgeClass(task.status)">{{ task.status }}</span></p>
+                <p><strong>Status:</strong> <span class="badge" [ngClass]="getBadgeClass(task.status)">{{ getBadgeText(task.status) }}</span></p>
+                <p><strong>Due Date:</strong> {{ task.dueDate | date: 'mediumDate' }}</p>
                 <hr>
                 <div class="d-flex justify-content-end gap-2 mt-2">
-                  <button class="btn btn-sm btn-primary" (click)="viewTaskDetails(task.id)">
+                  <button class="btn btn-sm btn-outline-info" (click)="viewTaskDetails(task.id)">
                     <fa-icon [icon]="faEye" class="me-1"></fa-icon> Details
                   </button>
-                  <button class="btn btn-sm btn-secondary" (click)="editTask(task.id)">
+                  <button class="btn btn-sm btn-outline-secondary" (click)="editTask(task.id)">
                     <fa-icon [icon]="faEdit" class="me-1"></fa-icon> Edit
                   </button>
-                  <button class="btn btn-sm btn-danger" (click)="deleteTask(task.id)">
+                  <button class="btn btn-sm btn-outline-danger" (click)="deleteTask(task.id)">
                     <fa-icon [icon]="faTrash" class="me-1"></fa-icon> Delete
                   </button>
                 </div>

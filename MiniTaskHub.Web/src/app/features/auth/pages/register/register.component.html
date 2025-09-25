@@ -1,70 +1,78 @@
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-      <div class="card shadow-lg">
-        <div class="card-header">
-          <h2>Register</h2>
-        </div>
-        <div class="card-body">
-          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-            <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input id="email" type="email" formControlName="email" class="form-control"
-                    [class.is-invalid]="registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched)">
-              <div class="validation-message-container">
-                @if (registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched)) {
-                  @if (registerForm.get('email')?.errors?.['required']) {
-                    <div>Email is required.</div>
-                  }
-                  @if (registerForm.get('email')?.errors?.['email']) {
-                    <div>Invalid email format.</div>
-                  }
+<div class="login-page-wrapper">
+  <div class="login-image-section d-none d-md-flex">
+    <!-- Image or decorative content for large screens -->
+    <div class="image-overlay"></div>
+    <div class="image-content">
+      <img src="images/logo.svg" alt="MiniTaskHub Logo" class="login-page-main-logo mb-3">
+      <h1>Join Our Community!</h1>
+      <p>Register now to manage your tasks efficiently and stay organized.</p>
+    </div>
+  </div>
+  <div class="login-form-section">
+    <div class="card shadow-lg">
+      <div class="card-header text-center">
+        <img src="images/logo.svg" alt="MiniTaskHub Logo" class="login-logo mb-3">
+        <h2>Register</h2>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input id="email" type="email" formControlName="email" class="form-control"
+                  [class.is-invalid]="registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched)">
+            <div class="validation-message-container">
+              @if (registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched)) {
+                @if (registerForm.get('email')?.errors?.['required']) {
+                  <div>Email is required.</div>
                 }
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <input id="password" type="password" formControlName="password" class="form-control"
-                    [class.is-invalid]="registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)">
-              <div class="validation-message-container">
-                @if (registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)) {
-                  @if (registerForm.get('password')?.errors?.['required']) {
-                    <div>Password is required.</div>
-                  }
-                  @if (registerForm.get('password')?.errors?.['minlength']) {
-                    <div>Password must be at least 6 characters.</div>
-                  }
+                @if (registerForm.get('email')?.errors?.['email']) {
+                  <div>Invalid email format.</div>
                 }
-              </div>
+              }
             </div>
-
-            <div class="mb-3">
-              <label for="confirmPassword" class="form-label">Confirm Password</label>
-              <input id="confirmPassword" type="password" formControlName="confirmPassword" class="form-control"
-                    [class.is-invalid]="registerForm.get('confirmPassword')?.invalid && (registerForm.get('confirmPassword')?.dirty || registerForm.get('confirmPassword')?.touched) || registerForm.errors?.['passwordMismatch']">
-              <div class="validation-message-container">
-                @if (registerForm.get('confirmPassword')?.invalid && (registerForm.get('confirmPassword')?.dirty || registerForm.get('confirmPassword')?.touched)) {
-                  @if (registerForm.get('confirmPassword')?.errors?.['required']) {
-                    <div>Confirm Password is required.</div>
-                  }
-                }
-                @if (registerForm.errors?.['passwordMismatch'] && (registerForm.get('confirmPassword')?.dirty || registerForm.get('confirmPassword')?.touched)) {
-                  <div>Passwords do not match.</div>
-                }
-              </div>
-            </div>
-
-            <div class="d-grid mt-4">
-              <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">
-                <fa-icon [icon]="faUserPlus" class="me-2"></fa-icon>
-                Register
-              </button>
-            </div>
-          </form>
-          <div class="text-center mt-4">
-            Already have an account? <a routerLink="/auth/login">Login here</a>
           </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input id="password" type="password" formControlName="password" class="form-control"
+                  [class.is-invalid]="registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)">
+            <div class="validation-message-container">
+              @if (registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)) {
+                @if (registerForm.get('password')?.errors?.['required']) {
+                  <div>Password is required.</div>
+                }
+                @if (registerForm.get('password')?.errors?.['minlength']) {
+                  <div>Password must be at least 6 characters.</div>
+                }
+              }
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="confirmPassword" class="form-label">Confirm Password</label>
+            <input id="confirmPassword" type="password" formControlName="confirmPassword" class="form-control"
+                  [class.is-invalid]="registerForm.get('confirmPassword')?.invalid && (registerForm.get('confirmPassword')?.dirty || registerForm.get('confirmPassword')?.touched) || registerForm.errors?.['passwordMismatch']">
+            <div class="validation-message-container">
+              @if (registerForm.get('confirmPassword')?.invalid && (registerForm.get('confirmPassword')?.dirty || registerForm.get('confirmPassword')?.touched)) {
+                @if (registerForm.get('confirmPassword')?.errors?.['required']) {
+                  <div>Confirm Password is required.</div>
+                }
+              }
+              @if (registerForm.errors?.['passwordMismatch'] && (registerForm.get('confirmPassword')?.dirty || registerForm.get('confirmPassword')?.touched)) {
+                <div>Passwords do not match.</div>
+              }
+            </div>
+          </div>
+
+          <div class="d-grid mt-4">
+            <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">
+              <fa-icon [icon]="faUserPlus" class="me-2"></fa-icon>
+              Register
+            </button>
+          </div>
+        </form>
+        <div class="text-center mt-4">
+          Already have an account? <a routerLink="/auth/login">Login here</a>
         </div>
       </div>
     </div>

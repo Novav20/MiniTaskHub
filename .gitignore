@@ -55,4 +55,4 @@ Thumbs.db
 MiniTaskHub.Tests/ExceptionHandlingTests.cs
 
 # Gemini local context file
-# GEMINI_CONTEXT.md
+GEMINI_CONTEXT.md
