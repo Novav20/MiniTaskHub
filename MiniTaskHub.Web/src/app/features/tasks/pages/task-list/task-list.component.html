@@ -21,6 +21,7 @@
     </div>
   </div>
 
+  @if ((tasks$ | async); as tasks) {
   @if (tasks.length > 0) {
     @if (isCardView) {
       <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -112,6 +113,7 @@
       </button>
     </div>
   }
+}
 </div>
 
 <app-confirm-dialog

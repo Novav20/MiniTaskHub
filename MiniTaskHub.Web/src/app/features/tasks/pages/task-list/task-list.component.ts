@@ -1,7 +1,9 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { TaskService } from '../../../../core/services/task.service';
 import { TaskItem, TaskItemStatus } from '../../../../core/models/task.model';
+import { TasksRepository } from '../../../../core/state/tasks.repository';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -24,6 +26,7 @@ export class TaskListComponent implements OnInit {
 
   private taskService = inject(TaskService);
   private router = inject(Router);
+  private tasksRepository = inject(TasksRepository);
 
   // Icons
   faPlus = faPlus;
@@ -33,7 +36,7 @@ export class TaskListComponent implements OnInit {
   faTable = faTable;
   faIdCard = faIdCard;
 
-  tasks: TaskItem[] = [];
+  tasks$: Observable<TaskItem[]> = this.tasksRepository.tasks$;
   isCardView: boolean = true;
   taskToDeleteId: number | null = null;
   selectedTaskForEdit: TaskItem | null = null;
@@ -43,12 +46,11 @@ export class TaskListComponent implements OnInit {
   }
 
   loadTasks(): void {
+    // This call triggers the HTTP request. 
+    // The service updates the store, and the component gets updates from the tasks$ observable.
     this.taskService.getAllTasks().subscribe({
-      next: (tasks: TaskItem[]) => {
-        this.tasks = tasks;
-      },
       error: (err: any) => {
-        console.error('Error loading tasks:', err);
+        console.error('Error loading tasks:', err); // Keep error logging for now
       }
     });
   }
@@ -71,23 +73,21 @@ export class TaskListComponent implements OnInit {
   }
 
   editTask(id: number): void {
-    this.taskService.getTaskById(id).subscribe({
-      next: (task: TaskItem) => {
-        this.selectedTaskForEdit = { ...task }; // Create a copy to avoid direct mutation
+    // Get the task from the store
+    this.tasksRepository.getTask(id).subscribe(task => {
+      if (task) {
+        this.selectedTaskForEdit = { ...task }; // Create a copy
         this.taskEditModal.show();
-      },
-      error: (err) => {
-        console.error('Error loading task for edit:', err);
+      } else {
+        // Optional: fetch from service if not in store, for robustness
+        console.error('Task not found in store, consider fetching from API');
       }
-    });
+    }).unsubscribe(); // We only need the current value, so we unsubscribe immediately.
   }
 
   onTaskSaved(updatedTask: TaskItem): void {
-    // Update the task in the local array
-    const index = this.tasks.findIndex(t => t.id === updatedTask.id);
-    if (index !== -1) {
-      this.tasks[index] = updatedTask;
-    }
+    // The service now updates the store, so this manual update is no longer needed.
+    // The tasks$ observable will automatically emit the new state.
     this.taskEditModal.hide();
     this.selectedTaskForEdit = null;
   }
@@ -103,31 +103,15 @@ export class TaskListComponent implements OnInit {
 
   deleteTask(id: number): void {
     this.taskToDeleteId = id;
-    
-    // Use setTimeout to ensure the dialog is properly initialized before showing it
-    setTimeout(() => {
-      try {
-        this.dialog.show();
-      } catch (error) {
-        console.error('Error showing dialog:', error);
-      }
-    });
+    setTimeout(() => this.dialog.show());
   }
 
   onDeleteConfirm(): void {
     if (this.taskToDeleteId) {
-      const taskIdToDelete = this.taskToDeleteId;
-      
-      // Hide the dialog first
-      try {
-        this.dialog.hide();
-      } catch (error) {
-        console.error('Error hiding dialog:', error);
-      }
-      
-      this.taskService.deleteTask(taskIdToDelete).subscribe({
+      this.dialog.hide();
+      this.taskService.deleteTask(this.taskToDeleteId).subscribe({
         next: () => {
-          this.tasks = this.tasks.filter(t => t.id !== taskIdToDelete);
+          // The store is now the source of truth, no need to filter the local array.
           this.taskToDeleteId = null;
         },
         error: (err) => {
@@ -135,23 +119,11 @@ export class TaskListComponent implements OnInit {
           this.taskToDeleteId = null;
         }
       });
-    } else {
-      try {
-        this.dialog.hide();
-      } catch (error) {
-        console.error('Error hiding dialog in onDeleteConfirm:', error);
-      }
     }
   }
 
   onDeleteCancel(): void {
     this.taskToDeleteId = null;
-    
-    // Ensure the dialog is properly hidden
-    try {
-      this.dialog.hide();
-    } catch (error) {
-      console.error('Error hiding dialog in onDeleteCancel:', error);
-    }
+    this.dialog.hide();
   }
 }
