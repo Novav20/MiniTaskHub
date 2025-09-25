@@ -4,11 +4,13 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { TaskService } from '../../../../core/services/task.service';
 import { TaskItem, TaskItemStatus, TaskDto } from '../../../../core/models/task.model';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faEdit, faTrash, faSave, faTimes, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-task-details',
   standalone: true,
-  imports: [CommonModule, RouterLink, ReactiveFormsModule],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule, FontAwesomeModule],
   templateUrl: './task-details.component.html',
   styleUrl: './task-details.component.scss'
 })
@@ -22,6 +24,13 @@ export class TaskDetailsComponent implements OnInit {
   taskForm!: FormGroup;
   isEditing = false;
   taskItemStatusOptions = Object.values(TaskItemStatus);
+
+  // Icons
+  faEdit = faEdit;
+  faTrash = faTrash;
+  faSave = faSave;
+  faTimes = faTimes;
+  faArrowLeft = faArrowLeft;
 
   ngOnInit(): void {
     this.taskForm = this.fb.group({}); // Initialize with an empty group
@@ -45,6 +54,19 @@ export class TaskDetailsComponent implements OnInit {
         this.router.navigate(['/tasks']); // Redirect to task list if not found or error
       }
     });
+  }
+
+  getBadgeClass(status: TaskItemStatus): string {
+    switch (status) {
+      case TaskItemStatus.Pending:
+        return 'text-bg-secondary';
+      case TaskItemStatus.InProgress:
+        return 'text-bg-primary';
+      case TaskItemStatus.Done:
+        return 'text-bg-success';
+      default:
+        return 'text-bg-light';
+    }
   }
 
   startEdit(): void {

@@ -1,9 +1,11 @@
-@use 'variables';
+@use '../../../../styles/variables' as variables;
 
-.app-footer {
-  background-color: variables.$header-footer-bg;
-  color: variables.$white-color;
-  padding: variables.$spacing-unit * 1.5 variables.$padding-base;
-  text-align: center;
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+:host {
+  .app-footer {
+    background: linear-gradient(90deg, variables.$primary, variables.$secondary); // Using the same gradient as header
+    color: white;
+    padding: 1rem 1.5rem;
+    text-align: center;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+  }
 }

@@ -1,20 +1,78 @@
-.task-container {
-  padding-bottom: 20px;
+@use '../../../../../styles/variables' as variables;
+@use 'sass:color';
+
+.page-title {
+  color: variables.$primary;
+  font-weight: 700;
+  margin-bottom: 1rem;
 }
 
-.card {
-  height: 100%;
+.view-switcher {
+  .btn-check:checked + .btn-outline-primary {
+    background-color: variables.$primary;
+    border-color: variables.$primary;
+    color: white;
+  }
+  .btn-outline-primary {
+    color: variables.$primary;
+    border-color: variables.$primary;
+    &:hover {
+      background-color: color.adjust(variables.$primary, $lightness: 40%);
+    }
+  }
 }
 
-.card-text {
-  flex-grow: 1;
+.badge {
+  &.text-bg-secondary {
+    background-color: variables.$secondary !important;
+  }
+  &.text-bg-primary {
+    background-color: variables.$primary !important;
+  }
+  &.text-bg-success {
+    background-color: #28a745 !important; // Standard success green
+  }
+  &.text-bg-light {
+    color: variables.$body-color !important;
+    background-color: variables.$light !important;
+  }
 }
 
-.card-footer {
-  border-top: none;
-  background-color: transparent;
+.alert-info {
+  background-color: color.adjust(variables.$info, $lightness: 20%);
+  color: color.adjust(variables.$info, $lightness: -20%);
+  border-color: variables.$info;
 }
 
-.form-check-label {
-  margin-left: 0.5rem;
+.border-dashed {
+  border: 2px dashed variables.$border-color;
+  border-radius: variables.$border-radius;
+}
+
+.table {
+  thead {
+    th {
+      border-bottom-width: 2px;
+    }
+  }
+  tbody {
+    tr {
+      transition: background-color 0.2s ease;
+      &:hover {
+        background-color: color.adjust(variables.$light, $lightness: 5%);
+      }
+    }
+  }
+}
+
+.accordion-button {
+  &:not(.collapsed) {
+    color: variables.$primary;
+    background-color: color.adjust(variables.$primary, $lightness: 45%);
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .08);
+  }
+  &:focus {
+    border-color: transparent;
+    box-shadow: none;
+  }
 }

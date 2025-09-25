@@ -1,4 +1,4 @@
-@use 'variables';
+@use '../../../styles/_variables' as variables;
 
 :host {
   display: flex;
@@ -8,5 +8,5 @@
 
 .app-main-content {
   flex: 1;
-  padding: variables.$padding-base;
+  padding: 1.5rem; // Using a fixed value for simplicity, or variables.$spacing-unit * 1.5
 }

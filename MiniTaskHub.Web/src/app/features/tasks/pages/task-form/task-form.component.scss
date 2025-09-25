@@ -1,17 +1,44 @@
-@use 'variables';
+@use '../../../../../styles/variables' as variables;
 @use 'sass:color';
-@use 'sass:math';
 
-.validation-message-container {
-  height: 1.2em; /* Fixed height to reserve space */
-  margin-top: math.div(variables.$spacing-unit, 2); /* Use math.div */
-  font-size: 0.8em; /* Smaller font size */
-  color: red; /* Red text color */
-  opacity: 0; /* Initially hidden */
-  transition: opacity 0.3s ease-in-out; /* Smooth transition */
-}
+:host {
+  .card-header {
+    background: linear-gradient(90deg, variables.$primary, variables.$secondary);
+    color: white;
+    padding: 1.5rem;
+    h2 {
+      font-weight: 700;
+    }
+  }
 
-/* When there is content (i.e., an error message), make it visible */
-.validation-message-container:has(div:not(:empty)) {
-  opacity: 1;
+  .card-body {
+    .form-label {
+      font-weight: 500;
+      color: variables.$body-color;
+    }
+
+    .validation-message-container {
+      min-height: 1.5em; // Reserve space to prevent layout shifts
+      div {
+        font-size: 0.875em;
+        color: variables.$danger;
+      }
+    }
+  }
+
+  .btn-primary {
+    background: linear-gradient(90deg, variables.$primary, variables.$secondary);
+    border: none;
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  .btn-secondary {
+    color: variables.$secondary;
+    border-color: variables.$secondary;
+    &:hover {
+      background-color: color.adjust(variables.$secondary, $lightness: 40%);
+    }
+  }
 }

@@ -1,0 +1,42 @@
+@use '../../../../styles/variables' as variables;
+
+:host {
+  .card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .card-body {
+    .card-title {
+      font-weight: 600;
+    }
+    .card-text {
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+  }
+
+  .card-footer {
+    background-color: transparent;
+    border-top: none;
+  }
+
+  .badge {
+    &.text-bg-secondary {
+      background-color: variables.$secondary !important;
+    }
+    &.text-bg-primary {
+      background-color: variables.$primary !important;
+    }
+    &.text-bg-success {
+      background-color: #28a745 !important; // Standard success green
+    }
+    &.text-bg-light {
+      color: variables.$body-color !important;
+      background-color: variables.$light !important;
+    }
+  }
+}

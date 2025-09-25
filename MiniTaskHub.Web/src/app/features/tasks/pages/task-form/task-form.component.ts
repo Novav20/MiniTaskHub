@@ -4,11 +4,13 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { TaskItemStatus, TaskItem, TaskDto } from '../../../../core/models/task.model';
 import { TaskService } from '../../../../core/services/task.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-task-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FontAwesomeModule],
   templateUrl: './task-form.component.html',
   styleUrl: './task-form.component.scss'
 })
@@ -23,6 +25,10 @@ export class TaskFormComponent implements OnInit {
   taskItemStatusOptions = Object.values(TaskItemStatus);
   isEditMode: boolean = false;
   taskId: number | null = null;
+
+  // Icons
+  faSave = faSave;
+  faTimes = faTimes;
 
   ngOnInit(): void {
     this.taskForm = this.fb.group({

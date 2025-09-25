@@ -1,42 +1,60 @@
 /* You can add global styles to this file, and also import other style files */
-@use 'variables'; // Import variables
-@use 'sass:color'; // Import color module
 
+
+// 1. Imports
+// Import our custom-defined variables first.
+@use './styles/variables' as variables;
+
+// 2. Bootstrap Variable Overrides
+// Override Bootstrap's default color map *before* importing Bootstrap SCSS.
+// This is required to ensure Bootstrap components use our custom color theme.
+$theme-colors: (
+  "primary": variables.$primary,
+  "secondary": variables.$secondary,
+  "success": variables.$success,
+  "info": variables.$info,
+  "warning": variables.$warning,
+  "danger": variables.$danger,
+  "light": variables.$light,
+  "dark": variables.$body-color
+);
+
+// 3. Bootstrap Import
+// Import the entire Bootstrap SCSS framework now that variables are overridden.
+@use "bootstrap/scss/bootstrap";
+
+// Import a modern font from Google Fonts for a clean, readable UI.
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
+// 4. Global Styles
+// Define base styles for the entire application using custom variables.
+body {
+  font-family: variables.$font-family-sans-serif;
+  background-color: variables.$body-bg;
+  color: variables.$body-color;
+}
+
+// 5. Utility Classes
+// Custom utility classes for convenience.
+.cursor-pointer {
+  cursor: pointer;
+}
+
+// 6. Layout Styles
+// Ensure html and body take full height and remove default margin.
 html, body {
   height: 100%;
   margin: 0;
-  min-width: 320px; /* Ensure horizontal scroll for extremely small viewports */
-  font-family: Arial, sans-serif;
-  background-color: variables.$background-color; // Use variable
-  color: variables.$text-color; // Use variable
 }
 
-.btn {
-  display: inline-block;
-  padding: variables.$spacing-unit * 1.5 variables.$spacing-unit * 2; // Use variable
-  border-radius: variables.$border-radius-base; // Use variable
-  text-decoration: none;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+// Set app container and root components to flex column layout with full viewport height.
+app-root, .app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-.btn-primary {
-  background-color: variables.$primary-color; // Use variable
-  color: variables.$white-color; // Use variable
-  border: 1px solid variables.$primary-color; // Use variable
-}
-
-.btn-primary:hover {
-  background-color: color.adjust(variables.$primary-color, $lightness: -10%); // Use color.adjust
-}
-
-.btn-secondary {
-  background-color: variables.$secondary-color; // Use variable
-  color: variables.$white-color; // Use variable
-  border: 1px solid variables.$secondary-color; // Use variable
-}
-
-.btn-secondary:hover {
-  background-color: color.adjust(variables.$secondary-color, $lightness: -10%); // Use color.adjust
+// Allow main content area to grow and fill available space.
+.main-content {
+  flex: 1;
 }

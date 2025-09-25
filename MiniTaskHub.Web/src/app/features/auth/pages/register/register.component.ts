@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router'; // Import RouterLink
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
 import { RegisterDto } from '../../../../core/models/auth.model';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 
 // Custom validator for password matching
 export function passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
@@ -18,12 +20,13 @@ export function passwordMatchValidator(control: AbstractControl): ValidationErro
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink], // Add RouterLink here
+  imports: [ReactiveFormsModule, RouterLink, FontAwesomeModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
   registerForm: FormGroup;
+  faUserPlus = faUserPlus;
 
   constructor(
     private fb: FormBuilder,
@@ -34,7 +37,7 @@ export class RegisterComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]]
-    }, { validators: passwordMatchValidator }); // Add custom validator here
+    }, { validators: passwordMatchValidator });
   }
 
   onSubmit(): void {
@@ -42,12 +45,11 @@ export class RegisterComponent {
       const registerDto: RegisterDto = this.registerForm.value;
       this.authService.register(registerDto).subscribe({
         next: () => {
-          console.log('Registration successful!'); // Add this line
-          this.router.navigate(['/auth/login']); // Redirect to login page after successful registration
+          console.log('Registration successful!');
+          this.router.navigate(['/auth/login']);
         },
         error: (err) => {
           console.error('Registration failed', err);
-          // Here you can show an error message to the user
         }
       });
     }

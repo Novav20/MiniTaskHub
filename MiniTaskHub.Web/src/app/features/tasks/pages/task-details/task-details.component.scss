@@ -1,0 +1,68 @@
+@use '../../../../../styles/variables' as variables;
+@use 'sass:color';
+
+:host {
+  .card-header {
+    background: linear-gradient(90deg, variables.$primary, variables.$secondary);
+    color: white;
+    padding: 1.5rem;
+    h2 {
+      font-weight: 700;
+    }
+  }
+
+  .card-body {
+    .form-label {
+      font-weight: 500;
+      color: variables.$body-color;
+    }
+
+    .card-text {
+      color: variables.$text-muted;
+    }
+
+    .badge {
+      &.text-bg-secondary {
+        background-color: variables.$secondary !important;
+      }
+      &.text-bg-primary {
+        background-color: variables.$primary !important;
+      }
+      &.text-bg-success {
+        background-color: #28a745 !important; // Standard success green
+      }
+      &.text-bg-light {
+        color: variables.$body-color !important;
+        background-color: variables.$light !important;
+      }
+    }
+    .validation-message-container {
+      min-height: 1.5em; // Reserve space to prevent layout shifts
+      div {
+        font-size: 0.875em;
+        color: variables.$danger;
+      }
+    }
+  }
+
+  .card-footer {
+    background-color: variables.$component-bg;
+    border-top: 1px solid variables.$border-color;
+  }
+
+  .btn-primary {
+    background: linear-gradient(90deg, variables.$primary, variables.$secondary);
+    border: none;
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  .btn-outline-secondary {
+    color: variables.$secondary;
+    border-color: variables.$secondary;
+    &:hover {
+      background-color: color.adjust(variables.$secondary, $lightness: 40%);
+    }
+  }
+}

@@ -1,9 +1,11 @@
-<div class="container mt-5">
+<div class="container">
   <div class="row justify-content-center">
     <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-      <div class="card shadow-sm">
+      <div class="card shadow-lg">
+        <div class="card-header">
+          <h2>Register</h2>
+        </div>
         <div class="card-body">
-          <h2 class="card-title text-center mb-4">Register</h2>
           <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
@@ -53,11 +55,14 @@
               </div>
             </div>
 
-            <div class="d-grid">
-              <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">Register</button>
+            <div class="d-grid mt-4">
+              <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">
+                <fa-icon [icon]="faUserPlus" class="me-2"></fa-icon>
+                Register
+              </button>
             </div>
           </form>
-          <div class="text-center mt-3">
+          <div class="text-center mt-4">
             Already have an account? <a routerLink="/auth/login">Login here</a>
           </div>
         </div>

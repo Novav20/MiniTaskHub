@@ -1,42 +1,40 @@
-@use 'variables';
+@use '../../../../styles/variables' as variables;
 
-.app-header {
-  background-color: variables.$header-footer-bg;
-  color: variables.$white-color;
-  padding: variables.$padding-base 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+:host {
+  // The :host selector targets the host element of the component (in this case, <app-header>)
+  .navbar {
+    // Apply a vibrant, branded gradient background.
+    // This creates a modern look that stands out.
+    background: linear-gradient(90deg, variables.$primary, variables.$secondary);
 
-  nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
+    .navbar-brand, .nav-link {
+      // Use a slightly bolder font weight for better readability on the gradient background.
+      font-weight: 500;
+    }
 
-  .app-title {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: variables.$white-color;
-    text-decoration: none;
-  }
+    .nav-link {
+      display: flex;
+      align-items: center;
+      transition: color 0.2s ease-in-out;
 
-  .nav-links a,
-  .nav-links button {
-    color: variables.$white-color;
-    text-decoration: none;
-    margin-left: 20px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1em;
-    padding: 5px 10px;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-  }
+      // Style for the active route link
+      &.active {
+        color: variables.$light !important; // Use the light accent color to highlight the active link.
+      }
 
-  .nav-links a:hover,
-  .nav-links button:hover {
-    background-color: #555; // Keep hardcoded for now, or add a hover variable
+      &:hover {
+        color: variables.$light; // Highlight on hover for better user feedback.
+      }
+
+      fa-icon {
+        // Ensure icons are vertically aligned with the text.
+        vertical-align: middle;
+      }
+    }
+
+    .app-logo {
+      height: 30px; // Adjust as needed
+      width: auto;
+    }
   }
 }

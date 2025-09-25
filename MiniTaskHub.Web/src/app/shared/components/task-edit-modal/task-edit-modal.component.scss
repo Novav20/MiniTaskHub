@@ -1,0 +1,42 @@
+@use '../../../../styles/variables' as variables;
+@use 'sass:color';
+
+.modal-header {
+  background: linear-gradient(90deg, variables.$primary, variables.$secondary);
+  color: white;
+  .modal-title {
+    font-weight: 700;
+  }
+  .btn-close {
+    filter: invert(1) brightness(2);
+  }
+}
+
+.modal-content {
+  border-radius: variables.$border-radius * 2;
+  overflow: hidden;
+}
+
+.validation-message-container {
+  min-height: 1.5em; // Reserve space to prevent layout shifts
+  div {
+    font-size: 0.875em;
+    color: variables.$danger;
+  }
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, variables.$primary, variables.$secondary);
+  border: none;
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.btn-secondary {
+  color: variables.$secondary;
+  border-color: variables.$secondary;
+  &:hover {
+    background-color: color.adjust(variables.$secondary, $lightness: 40%);
+  }
+}

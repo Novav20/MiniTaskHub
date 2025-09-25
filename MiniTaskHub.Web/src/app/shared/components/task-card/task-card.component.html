@@ -1,12 +1,18 @@
-<div class="card h-100 shadow-sm">
-  <div class="card-body">
-    <h5 class="card-title">{{ task.title }}</h5>
-    <p class="card-text text-muted">{{ task.description }}</p>
-    <span class="badge bg-info text-dark">{{ task.status }}</span>
+<div class="card h-100 shadow-sm border-0">
+  <div class="card-body d-flex flex-column">
+    <h5 class="card-title text-primary">{{ task.title }}</h5>
+    <p class="card-text text-muted flex-grow-1">{{ task.description }}</p>
+    <span class="badge mt-2" [ngClass]="getBadgeClass(task.status)">{{ task.status }}</span>
   </div>
-  <div class="card-footer d-flex flex-column flex-sm-row justify-content-sm-end gap-2 mt-2 mt-sm-0">
-    <button class="btn btn-sm btn-outline-primary" (click)="onViewTaskDetails()">Details</button>
-    <button class="btn btn-sm btn-outline-secondary" (click)="onEditTask()">Edit</button>
-    <button class="btn btn-sm btn-outline-danger" (click)="onDeleteTask()">Delete</button>
+  <div class="card-footer bg-transparent border-top-0 d-flex justify-content-end gap-2">
+    <button class="btn btn-sm btn-outline-info" (click)="onViewTaskDetails()" title="Details">
+      <fa-icon [icon]="faEye"></fa-icon>
+    </button>
+    <button class="btn btn-sm btn-outline-secondary" (click)="onEditTask()" title="Edit">
+      <fa-icon [icon]="faEdit"></fa-icon>
+    </button>
+    <button class="btn btn-sm btn-outline-danger" (click)="onDeleteTask()" title="Delete">
+      <fa-icon [icon]="faTrash"></fa-icon>
+    </button>
   </div>
 </div>

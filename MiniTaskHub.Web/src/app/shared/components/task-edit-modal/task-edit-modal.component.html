@@ -1,0 +1,73 @@
+<div #editTaskModal class="modal fade" id="editTaskModal" tabindex="-1" aria-labelledby="editTaskModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editTaskModalLabel">Edit Task</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="onCancel()"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" id="title" formControlName="title" class="form-control"
+                   [class.is-invalid]="taskForm.get('title')?.invalid && (taskForm.get('title')?.dirty || taskForm.get('title')?.touched)">
+            <div class="validation-message-container">
+              @if (taskForm.get('title')?.invalid && (taskForm.get('title')?.dirty || taskForm.get('title')?.touched)) {
+                <div>@if (taskForm.get('title')?.errors?.['required']) { Title is required. }</div>
+                <div>@if (taskForm.get('title')?.errors?.['minlength']) { Title must be at least 3 characters. }</div>
+                <div>@if (taskForm.get('title')?.errors?.['maxlength']) { Title cannot exceed 100 characters. }</div>
+              }
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" formControlName="description" class="form-control" rows="3"
+                      [class.is-invalid]="taskForm.get('description')?.invalid && (taskForm.get('description')?.dirty || taskForm.get('description')?.touched)"></textarea>
+            <div class="validation-message-container">
+              @if (taskForm.get('description')?.invalid && (taskForm.get('description')?.dirty || taskForm.get('description')?.touched)) {
+                <div>@if (taskForm.get('description')?.errors?.['minlength']) { Description must be at least 3 characters. }</div>
+                <div>@if (taskForm.get('description')?.errors?.['maxlength']) { Description cannot exceed 500 characters. }</div>
+              }
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <select id="status" formControlName="status" class="form-select"
+                    [class.is-invalid]="taskForm.get('status')?.invalid && (taskForm.get('status')?.dirty || taskForm.get('status')?.touched)">
+              @for (statusOption of taskItemStatusOptions; track statusOption) {
+                <option [value]="statusOption">{{ statusOption }}</option>
+              }
+            </select>
+            <div class="validation-message-container">
+              @if (taskForm.get('status')?.invalid && (taskForm.get('status')?.dirty || taskForm.get('status')?.touched)) {
+                <div>@if (taskForm.get('status')?.errors?.['required']) { Status is required. }</div>
+              }
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="dueDate" class="form-label">Due Date</label>
+            <input type="date" id="dueDate" formControlName="dueDate" class="form-control"
+                   [class.is-invalid]="taskForm.get('dueDate')?.invalid && (taskForm.get('dueDate')?.dirty || taskForm.get('dueDate')?.touched)">
+            <div class="validation-message-container">
+              @if (taskForm.get('dueDate')?.invalid && (taskForm.get('dueDate')?.dirty || taskForm.get('dueDate')?.touched)) {
+                <div>@if (taskForm.get('dueDate')?.errors?.['required']) { Due Date is required. }</div>
+              }
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end gap-2 mt-4">
+            <button type="submit" class="btn btn-primary" [disabled]="taskForm.invalid">
+              <fa-icon [icon]="faSave" class="me-2"></fa-icon>Save
+            </button>
+            <button type="button" class="btn btn-secondary" (click)="onCancel()">
+              <fa-icon [icon]="faTimes" class="me-2"></fa-icon>Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

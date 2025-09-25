@@ -1,18 +1,21 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router'; // Add RouterLink here
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
 import { LoginDto } from '../../../../core/models/auth.model';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faRightToBracket } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink], // Add RouterLink here
+  imports: [ReactiveFormsModule, RouterLink, FontAwesomeModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  faRightToBracket = faRightToBracket;
 
   constructor(
     private fb: FormBuilder,
@@ -30,12 +33,11 @@ export class LoginComponent {
       const loginDto: LoginDto = this.loginForm.value;
       this.authService.login(loginDto).subscribe({
         next: () => {
-          console.log('Login successful!'); // Add this line
-          this.router.navigate(['/tasks']); // Redirect to tasks page
+          console.log('Login successful!');
+          this.router.navigate(['/tasks']);
         },
         error: (err) => {
           console.error('Login failed', err);
-          // Here you can show an error message to the user
         }
       });
     }

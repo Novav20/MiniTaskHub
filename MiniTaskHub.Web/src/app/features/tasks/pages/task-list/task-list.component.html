@@ -1,11 +1,22 @@
 <div class="container mt-4">
-  <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center mb-3">
-    <h1>My Tasks</h1>
-    <div class="d-flex flex-column flex-sm-row gap-2 mt-2 mt-sm-0">
-      <button class="btn btn-success" (click)="createNewTask()">Create New Task</button>
-      <div class="form-check form-switch d-flex align-items-center justify-content-center">
-        <input class="form-check-input" type="checkbox" id="viewToggle" [(ngModel)]="isCardView">
-        <label class="form-check-label ms-2" for="viewToggle">{{ isCardView ? 'Card View' : 'Table View' }}</label>
+  <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center mb-4">
+    <h1 class="page-title">My Tasks</h1>
+    <div class="d-flex flex-column flex-sm-row align-items-center gap-2 mt-3 mt-sm-0">
+      <button class="btn btn-primary" (click)="createNewTask()">
+        <fa-icon [icon]="faPlus" class="me-2"></fa-icon>New Task
+      </button>
+      
+      <!-- Custom View Switcher -->
+      <div class="view-switcher btn-group" role="group" aria-label="View switcher">
+        <input type="radio" class="btn-check" name="view-switch" id="card-view-btn" autocomplete="off" [checked]="isCardView" (change)="isCardView = true">
+        <label class="btn btn-outline-primary" for="card-view-btn" [class.active]="isCardView">
+          <fa-icon [icon]="faIdCard" title="Card view"></fa-icon>
+        </label>
+
+        <input type="radio" class="btn-check" name="view-switch" id="table-view-btn" autocomplete="off" [checked]="!isCardView" (change)="isCardView = false">
+        <label class="btn btn-outline-primary" for="table-view-btn" [class.active]="!isCardView">
+          <fa-icon [icon]="faTable" title="Table view"></fa-icon>
+        </label>
       </div>
     </div>
   </div>
@@ -25,15 +36,15 @@
         }
       </div>
     } @else {
-      <!-- Desktop Table View (visible on medium screens and up) -->
-      <div class="table-responsive d-none d-md-block">
-        <table class="table table-striped table-hover shadow-sm">
-          <thead>
+      <!-- Desktop Table View -->
+      <div class="table-responsive d-none d-md-block shadow-sm rounded">
+        <table class="table table-hover align-middle">
+          <thead class="table-light">
             <tr>
               <th scope="col">Title</th>
               <th scope="col">Description</th>
               <th scope="col">Status</th>
-              <th scope="col">Actions</th>
+              <th scope="col" class="text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -41,21 +52,27 @@
               <tr>
                 <td>{{ task.title }}</td>
                 <td>{{ task.description }}</td>
-                <td><span class="badge bg-info text-dark">{{ task.status }}</span></td>
+                <td><span class="badge" [ngClass]="getBadgeClass(task.status)">{{ task.status }}</span></td>
                 <td>
-                  <div class="d-flex gap-2">
-                    <button class="btn btn-sm btn-outline-primary" (click)="viewTaskDetails(task.id)">Details</button>
-                    <button class="btn btn-sm btn-outline-secondary" (click)="editTask(task.id)">Edit</button>
-                    <button class="btn btn-sm btn-outline-danger" (click)="deleteTask(task.id)">Delete</button>
-                  </div>
-                </td>
-              </tr>
+                  <div class="d-flex justify-content-center gap-2">
+                    <button class="btn btn-sm btn-outline-info" (click)="viewTaskDetails(task.id)" title="Details">
+                      <fa-icon [icon]="faEye"></fa-icon>
+                    </button>
+                    <button class="btn btn-sm btn-outline-secondary" (click)="editTask(task.id)" title="Edit">
+                    <fa-icon [icon]="faEdit"></fa-icon>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" (click)="deleteTask(task.id)" title="Delete">
+                    <fa-icon [icon]="faTrash"></fa-icon>
+                  </button>
+                </div>
+              </td>
+            </tr>
             }
           </tbody>
         </table>
       </div>
 
-      <!-- Mobile Accordion/List View (visible on small screens) -->
+      <!-- Mobile Accordion View -->
       <div class="accordion d-md-none" id="taskAccordion">
         @for (task of tasks; track task.id) {
           <div class="accordion-item">
@@ -67,12 +84,18 @@
             <div [id]="'collapse-' + task.id" class="accordion-collapse collapse" [attr.aria-labelledby]="'heading-' + task.id" data-bs-parent="#taskAccordion">
               <div class="accordion-body">
                 <p><strong>Description:</strong> {{ task.description || 'N/A' }}</p>
-                <p><strong>Status:</strong> <span class="badge bg-info text-dark">{{ task.status }}</span></p>
+                <p><strong>Status:</strong> <span class="badge" [ngClass]="getBadgeClass(task.status)">{{ task.status }}</span></p>
                 <hr>
-                <div class="d-flex flex-column flex-sm-row justify-content-sm-end gap-2 mt-2">
-                  <button class="btn btn-sm btn-outline-primary" (click)="viewTaskDetails(task.id)">Details</button>
-                  <button class="btn btn-sm btn-outline-secondary" (click)="editTask(task.id)">Edit</button>
-                  <button class="btn btn-sm btn-outline-danger" (click)="deleteTask(task.id)">Delete</button>
+                <div class="d-flex justify-content-end gap-2 mt-2">
+                  <button class="btn btn-sm btn-primary" (click)="viewTaskDetails(task.id)">
+                    <fa-icon [icon]="faEye" class="me-1"></fa-icon> Details
+                  </button>
+                  <button class="btn btn-sm btn-secondary" (click)="editTask(task.id)">
+                    <fa-icon [icon]="faEdit" class="me-1"></fa-icon> Edit
+                  </button>
+                  <button class="btn btn-sm btn-danger" (click)="deleteTask(task.id)">
+                    <fa-icon [icon]="faTrash" class="me-1"></fa-icon> Delete
+                  </button>
                 </div>
               </div>
             </div>
@@ -81,8 +104,12 @@
       </div>
     }
   } @else {
-    <div class="alert alert-info text-center" role="alert">
-      <p class="mb-0">You have no tasks yet. Great job!</p>
+    <div class="alert alert-light text-center border-dashed mt-5 p-5">
+      <h4>No tasks yet!</h4>
+      <p class="text-muted">Looks like you're all caught up. Why not create a new task?</p>
+      <button class="btn btn-primary mt-3" (click)="createNewTask()">
+        <fa-icon [icon]="faPlus" class="me-2"></fa-icon>Create a Task
+      </button>
     </div>
   }
 </div>
@@ -96,3 +123,10 @@
   (confirm)="onDeleteConfirm()"
   (cancel)="onDeleteCancel()"
 ></app-confirm-dialog>
+
+  <app-task-edit-modal
+  #taskEditModal
+  [task]="selectedTaskForEdit"
+  (save)="onTaskSaved($event)"
+  (cancel)="onTaskEditCanceled()"
+></app-task-edit-modal>

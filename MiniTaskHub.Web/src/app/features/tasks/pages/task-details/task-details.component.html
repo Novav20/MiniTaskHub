@@ -1,8 +1,8 @@
 <div class="container mt-4">
   @if (task) {
     <form [formGroup]="taskForm" (ngSubmit)="saveEdit()">
-      <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white">
+      <div class="card shadow-lg border-0">
+        <div class="card-header text-white">
           <!-- Title -->
           @if (isEditing) {
             <h2 class="mb-0">Editing Task</h2>
@@ -63,7 +63,7 @@
                 }
               </div>
             } @else {
-              <p><span class="badge bg-info text-dark">{{ task.status }}</span></p>
+              <p><span class="badge" [ngClass]="getBadgeClass(task.status)">{{ task.status }}</span></p>
             }
           </div>
 
@@ -86,20 +86,30 @@
         </div>
         <div class="card-footer d-flex justify-content-end gap-2">
           @if (isEditing) {
-            <button type="submit" class="btn btn-primary" [disabled]="taskForm.invalid">Save</button>
-            <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
+            <button type="submit" class="btn btn-primary" [disabled]="taskForm.invalid">
+              <fa-icon [icon]="faSave" class="me-2"></fa-icon>Save
+            </button>
+            <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
+              <fa-icon [icon]="faTimes" class="me-2"></fa-icon>Cancel
+            </button>
           } @else {
-            <button type="button" class="btn btn-primary" (click)="startEdit()">Edit</button>
-            <button type="button" class="btn btn-outline-secondary" [routerLink]="['/tasks']">Back to List</button>
+            <button type="button" class="btn btn-primary" (click)="startEdit()">
+              <fa-icon [icon]="faEdit" class="me-2"></fa-icon>Edit
+            </button>
+            <button type="button" class="btn btn-outline-secondary" [routerLink]="['/tasks']">
+              <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>Back to List
+            </button>
           }
         </div>
       </div>
     </form>
   } @else {
-    <div class="card shadow-sm">
+    <div class="card shadow-sm border-0">
       <div class="card-body">
         <p class="card-text">Loading task details or task not found...</p>
-        <button class="btn btn-outline-secondary" [routerLink]="['/tasks']">Back to List</button>
+        <button class="btn btn-outline-secondary" [routerLink]="['/tasks']">
+          <fa-icon [icon]="faArrowLeft" class="me-2"></fa-icon>Back to List
+        </button>
       </div>
     </div>
   }

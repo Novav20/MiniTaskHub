@@ -1,80 +1,80 @@
-@use 'variables';
+@use '../../../../../styles/variables' as variables;
 @use 'sass:color';
-@use 'sass:math';
 
 :host {
   display: flex;
-  justify-content: center;
   align-items: center;
-  min-height: calc(100vh - variables.$padding-base * 2 - 100px); /* Adjust based on header/footer height */
-  padding: variables.$padding-base;
+  justify-content: center;
+  // Use a subtle gradient from the theme for the background
+  background: linear-gradient(120deg, color.adjust(variables.$light, $lightness: 5%), color.adjust(variables.$secondary, $lightness: 25%));
+  min-height: 100%; // Ensure it covers the full viewport height
+  padding: 2rem;
 }
 
-.auth-container {
-  background-color: variables.$white-color;
-  padding: variables.$padding-base * 2;
-  border-radius: variables.$border-radius-base;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
-  box-sizing: border-box;
+.card {
+  // Modern card with a subtle shadow and our theme's border radius
+  border: none;
+  border-radius: variables.$border-radius * 2;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden; // Ensures the gradient in the header doesn't spill out
+}
+
+.card-header {
+  // A vibrant header for the login card
+  background: linear-gradient(90deg, variables.$primary, variables.$secondary);
+  color: white;
+  padding: 1.5rem;
+  text-align: center;
+  border-bottom: none;
 
   h2 {
-    text-align: center;
-    margin-bottom: variables.$padding-base * 1.5;
-    color: variables.$primary-color;
+    margin: 0;
+    font-weight: 700;
   }
 }
 
-.form-group {
-  margin-bottom: variables.$padding-base;
+.card-body {
+  padding: 2rem;
 }
 
-label {
-  display: block;
-  margin-bottom: math.div(variables.$spacing-unit, 2); /* Use math.div */
-  font-weight: bold;
-  color: variables.$text-color;
+.form-label {
+  font-weight: 500;
 }
 
-.form-control {
-  width: 100%;
-  padding: variables.$spacing-unit;
-  border: 1px solid #ccc;
-  border-radius: variables.$border-radius-base;
-  box-sizing: border-box;
-  font-size: 1em;
-}
+.btn-primary {
+  // Make the primary button stand out with a gradient and shadow
+  background: linear-gradient(90deg, variables.$primary, variables.$secondary);
+  border: none;
+  padding: 0.75rem;
+  font-weight: 500;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 
-.btn-submit {
-  width: 100%;
-  padding: variables.$spacing-unit * 1.5;
-  font-size: 1.1em;
-  margin-top: variables.$padding-base;
-}
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  }
 
-.redirect-link {
-  margin-top: variables.$padding-base;
-  text-align: center;
-  a {
-    color: variables.$primary-color;
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
+  &:disabled {
+    background: #ccc;
+    transform: none;
+    box-shadow: none;
   }
 }
 
 .validation-message-container {
-  height: 1.2em; /* Fixed height to reserve space */
-  margin-top: math.div(variables.$spacing-unit, 2); /* Use math.div */
-  font-size: 0.8em; /* Smaller font size */
-  color: red; /* Red text color */
-  opacity: 0; /* Initially hidden */
-  transition: opacity 0.3s ease-in-out; /* Smooth transition */
+  min-height: 1.5em; // Reserve space to prevent layout shifts
+  div {
+    font-size: 0.875em;
+    color: variables.$danger;
+  }
 }
 
-/* When there is content (i.e., an error message), make it visible */
-.validation-message-container:has(div:not(:empty)) {
-  opacity: 1;
+.text-center a {
+  color: variables.$primary;
+  font-weight: 500;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
