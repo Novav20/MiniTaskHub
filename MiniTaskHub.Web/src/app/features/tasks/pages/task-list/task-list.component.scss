@@ -76,3 +76,10 @@
     box-shadow: none;
   }
 }
+
+// Style for the filter toggle button when the collapsible filter bar is open
+.btn[aria-expanded="true"] {
+  background-color: variables.$primary;
+  border-color: variables.$primary;
+  color: #fff; // Assuming white text on primary background is desired
+}

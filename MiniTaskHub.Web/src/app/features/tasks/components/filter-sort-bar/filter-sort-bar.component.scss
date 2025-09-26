@@ -1,0 +1,66 @@
+@use '../../../../../styles/variables' as variables;
+@use 'sass:color';
+
+:host {
+  .filter-sort-bar {
+    background-color: color.adjust(variables.$component-bg, $alpha: -0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid color.adjust(variables.$border-color, $alpha: -0.5);
+    border-radius: variables.$border-radius * 2; // Slightly larger radius for the container
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease-in-out;
+
+    .form-label {
+      font-weight: 500;
+      color: variables.$body-color;
+      font-size: 0.875rem;
+    }
+
+    .form-select,
+    .form-control {
+      background-color: color.adjust(variables.$component-bg, $alpha: -0.2);
+      border-color: variables.$border-color;
+      color: variables.$body-color;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+      &:focus {
+        border-color: variables.$primary;
+        box-shadow: 0 0 0 0.25rem color.adjust(variables.$primary, $alpha: -0.75);
+        background-color: color.adjust(variables.$component-bg, $alpha: -0.1);
+      }
+    }
+
+    // Fix for dark text on dark background in date picker icon
+    .form-control::-webkit-calendar-picker-indicator {
+    }
+
+    .btn {
+      transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+
+      &:active {
+        transform: translateY(1px);
+      }
+    }
+    
+    .btn-outline-secondary {
+        color: variables.$secondary;
+        border-color: variables.$secondary;
+
+        &:hover {
+            background-color: variables.$secondary;
+            color: variables.$component-bg;
+        }
+    }
+
+    .btn-outline-danger {
+        color: variables.$text-muted;
+        border-color: variables.$text-muted;
+
+        &:hover {
+            background-color: variables.$danger;
+            border-color: variables.$danger;
+            color: variables.$component-bg;
+        }
+    }
+  }
+}

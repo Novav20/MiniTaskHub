@@ -1,0 +1,49 @@
+<div class="filter-sort-bar card mb-4">
+  <div class="card-body">
+    <form [formGroup]="controls" class="row g-3 align-items-center">
+      <!-- Filter by Status -->
+      <div class="col-6 col-lg-3">
+        <label for="statusFilter" class="form-label">Status</label>
+        <select id="statusFilter" class="form-select" formControlName="status">
+          <option [ngValue]="null">All</option>
+          @for (status of taskStatusOptions; track status) {
+            <option [value]="status">{{ getStatusText(status) }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Sort by Property -->
+      <div class="col-6 col-lg-3">
+        <label for="sortBy" class="form-label">Sort by</label>
+        <select id="sortBy" class="form-select" formControlName="sortBy">
+          <option value="title">Title</option>
+          <option value="dueDate">Due Date</option>
+        </select>
+      </div>
+
+      <!-- Filter by Due Date -->
+      <div class="col-12 col-lg-3">
+        <label for="dueDateFilter" class="form-label">Due Date</label>
+        <input id="dueDateFilter" type="date" class="form-control" formControlName="dueDate">
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="col-12 col-lg-3">
+        <label class="form-label d-none d-lg-block">&nbsp;</label> <!-- Spacer for lg screens -->
+        <div class="d-flex gap-2 w-100">
+          <!-- Sort Direction -->
+          <button type="button" class="btn btn-outline-secondary w-100" (click)="toggleSortDirection()">
+            <fa-icon [icon]="sortDirection === 'asc' ? faArrowUpAZ : faArrowDownZA"></fa-icon>
+            <span class="d-none d-sm-inline ms-2">{{ sortDirection === 'asc' ? 'Asc' : 'Desc' }}</span>
+          </button>
+
+          <!-- Clear Button -->
+          <button type="button" class="btn btn-outline-danger w-100" (click)="clearFilters()">
+            <fa-icon [icon]="faTimes"></fa-icon>
+            <span class="d-none d-sm-inline ms-2">Clear</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

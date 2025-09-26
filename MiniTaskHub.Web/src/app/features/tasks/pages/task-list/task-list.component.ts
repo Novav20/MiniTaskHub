@@ -10,13 +10,14 @@ import { FormsModule } from '@angular/forms';
 import { TaskCardComponent } from '../../../../shared/components/task-card/task-card.component';
 import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faPlus, faEye, faEdit, faTrash, faTable, faIdCard } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faEye, faEdit, faTrash, faTable, faIdCard, faFilter } from '@fortawesome/free-solid-svg-icons';
 import { TaskEditModalComponent } from '../../../../shared/components/task-edit-modal/task-edit-modal.component';
+import { FilterSortBarComponent, TaskFilters } from '../../components/filter-sort-bar/filter-sort-bar.component';
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, TaskCardComponent, ConfirmDialogComponent, FontAwesomeModule, TaskEditModalComponent],
+  imports: [CommonModule, FormsModule, TaskCardComponent, ConfirmDialogComponent, FontAwesomeModule, TaskEditModalComponent, FilterSortBarComponent],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss'
 })
@@ -35,6 +36,7 @@ export class TaskListComponent implements OnInit {
   faTrash = faTrash;
   faTable = faTable;
   faIdCard = faIdCard;
+  faFilter = faFilter;
 
   tasks$: Observable<TaskItem[]> = this.tasksRepository.tasks$;
   isCardView: boolean = true;
@@ -138,5 +140,9 @@ export class TaskListComponent implements OnInit {
   onDeleteCancel(): void {
     this.taskToDeleteId = null;
     this.dialog.hide();
+  }
+
+  onFiltersChanged(filters: TaskFilters): void {
+    this.tasksRepository.updateFilters(filters);
   }
 }
