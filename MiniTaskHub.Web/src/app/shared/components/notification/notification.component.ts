@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -6,7 +6,8 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './notification.component.html',
-  styleUrl: './notification.component.scss'
+  styleUrl: './notification.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NotificationComponent implements OnInit, OnDestroy {
   @Input() message: string = '';

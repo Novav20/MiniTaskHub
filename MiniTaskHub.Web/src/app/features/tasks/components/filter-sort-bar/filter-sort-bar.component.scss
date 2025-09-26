@@ -30,10 +30,6 @@
       }
     }
 
-    // Fix for dark text on dark background in date picker icon
-    .form-control::-webkit-calendar-picker-indicator {
-    }
-
     .btn {
       transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
 

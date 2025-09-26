@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { TaskService } from '../../../../core/services/task.service';
@@ -13,13 +13,15 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faPlus, faEye, faEdit, faTrash, faTable, faIdCard, faFilter } from '@fortawesome/free-solid-svg-icons';
 import { TaskEditModalComponent } from '../../../../shared/components/task-edit-modal/task-edit-modal.component';
 import { FilterSortBarComponent, TaskFilters } from '../../components/filter-sort-bar/filter-sort-bar.component';
+import { StatusBadgeComponent } from '../../../../shared/components/status-badge/status-badge.component';
 
 @Component({
   selector: 'app-task-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, TaskCardComponent, ConfirmDialogComponent, FontAwesomeModule, TaskEditModalComponent, FilterSortBarComponent],
+  imports: [CommonModule, FormsModule, TaskCardComponent, ConfirmDialogComponent, FontAwesomeModule, TaskEditModalComponent, FilterSortBarComponent, StatusBadgeComponent],
   templateUrl: './task-list.component.html',
-  styleUrl: './task-list.component.scss'
+  styleUrl: './task-list.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskListComponent implements OnInit {
   @ViewChild('deleteConfirmDialog') private dialog!: ConfirmDialogComponent;
@@ -57,28 +59,6 @@ export class TaskListComponent implements OnInit {
     });
   }
 
-  getBadgeClass(status: TaskItemStatus): string {
-    switch (status) {
-      case TaskItemStatus.Pending:
-        return 'badge-glass-pending';
-      case TaskItemStatus.InProgress:
-        return 'badge-glass-in-progress';
-      case TaskItemStatus.Done:
-        return 'badge-glass-done';
-      default:
-        return 'badge-glass-pending'; // A sensible default
-    }
-  }
-
-  getBadgeText(status: TaskItemStatus): string {
-    switch (status) {
-      case TaskItemStatus.InProgress:
-        return 'In Progress';
-      default:
-        return status; // For Pending, Done, etc., return as is
-    }
-  }
-
   createNewTask(): void {
     this.router.navigate(['/tasks/new']);
   }
@@ -101,10 +81,16 @@ export class TaskListComponent implements OnInit {
   }
 
   onTaskSaved(updatedTask: TaskItem): void {
-    // The service now updates the store, so this manual update is no longer needed.
-    // The tasks$ observable will automatically emit the new state.
-    this.taskEditModal.hide();
-    this.selectedTaskForEdit = null;
+    this.taskService.updateTask(updatedTask.id, updatedTask).subscribe({
+      next: () => {
+        this.taskEditModal.hide();
+        this.selectedTaskForEdit = null;
+      },
+      error: (err) => {
+        console.error('Error updating task from modal:', err);
+        // Optionally show an error message
+      }
+    });
   }
 
   onTaskEditCanceled(): void {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
@@ -18,7 +18,8 @@ export interface TaskFilters {
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FontAwesomeModule],
   templateUrl: './filter-sort-bar.component.html',
-  styleUrls: ['./filter-sort-bar.component.scss']
+  styleUrls: ['./filter-sort-bar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FilterSortBarComponent implements OnInit {
   @Output() filtersChanged = new EventEmitter<TaskFilters>();

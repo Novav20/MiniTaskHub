@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
@@ -22,7 +22,8 @@ export function passwordMatchValidator(control: AbstractControl): ValidationErro
   standalone: true,
   imports: [ReactiveFormsModule, RouterLink, FontAwesomeModule],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrl: './register.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterComponent {
   registerForm: FormGroup;

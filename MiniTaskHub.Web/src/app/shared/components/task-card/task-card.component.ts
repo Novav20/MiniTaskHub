@@ -1,15 +1,17 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TaskItem, TaskItemStatus } from '../../../core/models/task.model';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faEye, faEdit, faTrash, faCalendarDay } from '@fortawesome/free-solid-svg-icons';
+import { StatusBadgeComponent } from '../status-badge/status-badge.component';
 
 @Component({
   selector: 'app-task-card',
   standalone: true,
-  imports: [CommonModule, FontAwesomeModule],
+  imports: [CommonModule, FontAwesomeModule, StatusBadgeComponent],
   templateUrl: './task-card.component.html',
-  styleUrl: './task-card.component.scss'
+  styleUrl: './task-card.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskCardComponent {
   @Input() task!: TaskItem;
@@ -23,28 +25,6 @@ export class TaskCardComponent {
   faEdit = faEdit;
   faTrash = faTrash;
   faCalendarDay = faCalendarDay;
-
-  getBadgeClass(status: TaskItemStatus): string {
-    switch (status) {
-      case TaskItemStatus.Pending:
-        return 'badge-glass-pending';
-      case TaskItemStatus.InProgress:
-        return 'badge-glass-in-progress';
-      case TaskItemStatus.Done:
-        return 'badge-glass-done';
-      default:
-        return 'badge-glass-pending'; // A sensible default
-    }
-  }
-
-  getBadgeText(status: TaskItemStatus): string {
-    switch (status) {
-      case TaskItemStatus.InProgress:
-        return 'In Progress';
-      default:
-        return status; // For Pending, Done, etc., return as is
-    }
-  }
 
   onEditTask(): void {
     this.editTask.emit(this.task.id);

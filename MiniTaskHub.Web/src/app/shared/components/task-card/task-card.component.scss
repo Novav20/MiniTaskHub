@@ -2,6 +2,8 @@
 
 :host {
   .card {
+    min-height: 220px; // Ensure consistent card height
+    max-height: 220px; // Limit card height
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     &:hover {
       transform: translateY(-5px);
@@ -17,26 +19,17 @@
       font-size: 0.95rem;
       line-height: 1.5;
     }
+    .description-clamp {
+      display: -webkit-box;
+      -webkit-line-clamp: 3; // Limit to 3 lines
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   .card-footer {
     background-color: transparent;
     border-top: none;
-  }
-
-  .badge {
-    &.text-bg-secondary {
-      background-color: variables.$secondary !important;
-    }
-    &.text-bg-primary {
-      background-color: variables.$primary !important;
-    }
-    &.text-bg-success {
-      background-color: #28a745 !important; // Standard success green
-    }
-    &.text-bg-light {
-      color: variables.$body-color !important;
-      background-color: variables.$light !important;
-    }
   }
 }

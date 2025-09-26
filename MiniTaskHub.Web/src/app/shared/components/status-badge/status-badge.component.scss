@@ -1,0 +1,30 @@
+@use '../../../../styles/variables' as variables;
+@use 'sass:color';
+
+:host {
+  .badge {
+    padding: 0.3em 0.6em;
+    border-radius: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease-in-out;
+    border: 1px solid transparent;
+    background-color: #f0f0f0; // Light grey background for "grisaseo"
+
+    &.badge-glass-pending {
+      color: variables.$warning !important;
+      border-color: variables.$warning;
+      box-shadow: 0 0 3px rgba(variables.$warning, 0.3); // Subtle glow
+    }
+    &.badge-glass-in-progress {
+      color: variables.$info !important;
+      border-color: variables.$info;
+      box-shadow: 0 0 3px rgba(variables.$info, 0.3); // Subtle glow
+    }
+    &.badge-glass-done {
+      color: variables.$success !important;
+      border-color: variables.$success;
+      box-shadow: 0 0 3px rgba(variables.$success, 0.3); // Subtle glow
+    }
+  }
+}

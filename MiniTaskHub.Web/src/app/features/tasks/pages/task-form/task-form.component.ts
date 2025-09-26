@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,7 +12,8 @@ import { faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FontAwesomeModule],
   templateUrl: './task-form.component.html',
-  styleUrl: './task-form.component.scss'
+  styleUrl: './task-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskFormComponent implements OnInit {
   private fb = inject(FormBuilder);

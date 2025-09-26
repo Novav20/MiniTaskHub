@@ -60,8 +60,8 @@
             @for (task of tasks; track task.id) {
               <tr>
                 <td>{{ task.title }}</td>
-                <td>{{ task.description }}</td>
-                <td><span class="badge" [ngClass]="getBadgeClass(task.status)">{{ getBadgeText(task.status) }}</span></td>
+                <td><span class="description-clamp">{{ task.description }}</span></td>
+                <td><app-status-badge [status]="task.status"></app-status-badge></td>
                 <td>{{ task.dueDate | date: 'mediumDate' }}</td>
                 <td>
                   <div class="d-flex justify-content-center gap-2">
@@ -93,8 +93,8 @@
             </h2>
             <div [id]="'collapse-' + task.id" class="accordion-collapse collapse" [attr.aria-labelledby]="'heading-' + task.id" data-bs-parent="#taskAccordion">
               <div class="accordion-body">
-                <p><strong>Description:</strong> {{ task.description || 'N/A' }}</p>
-                <p><strong>Status:</strong> <span class="badge" [ngClass]="getBadgeClass(task.status)">{{ getBadgeText(task.status) }}</span></p>
+                <p><strong>Description:</strong> <span class="description-clamp">{{ task.description || 'N/A' }}</span></p>
+                <p><strong>Status:</strong> <app-status-badge [status]="task.status"></app-status-badge></p>
                 <p><strong>Due Date:</strong> {{ task.dueDate | date: 'mediumDate' }}</p>
                 <hr>
                 <div class="d-flex justify-content-end gap-2 mt-2">

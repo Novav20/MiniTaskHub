@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 declare var bootstrap: any;
@@ -8,7 +8,8 @@ declare var bootstrap: any;
   standalone: true,
   imports: [CommonModule],
   templateUrl: './confirm-dialog.component.html',
-  styleUrls: ['./confirm-dialog.component.scss']
+  styleUrls: ['./confirm-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConfirmDialogComponent implements AfterViewInit, OnDestroy {
   @Input() title: string = 'Confirm Action';

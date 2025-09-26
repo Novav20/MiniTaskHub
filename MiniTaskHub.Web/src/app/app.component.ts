@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ErrorService, NotificationMessage } from './core/services/error.service';
@@ -9,7 +9,8 @@ import { NotificationComponent } from './shared/components/notification/notifica
   standalone: true,
   imports: [RouterOutlet, NotificationComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit, OnDestroy {
   private errorService = inject(ErrorService);

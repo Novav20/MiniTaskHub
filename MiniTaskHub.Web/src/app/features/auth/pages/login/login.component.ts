@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
@@ -11,7 +11,8 @@ import { faRightToBracket } from '@fortawesome/free-solid-svg-icons';
   standalone: true,
   imports: [ReactiveFormsModule, RouterLink, FontAwesomeModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent {
   loginForm: FormGroup;

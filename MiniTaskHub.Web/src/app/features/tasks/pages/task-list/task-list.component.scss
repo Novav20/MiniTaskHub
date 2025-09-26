@@ -22,22 +22,6 @@
   }
 }
 
-.badge {
-  &.text-bg-secondary {
-    background-color: variables.$secondary !important;
-  }
-  &.text-bg-primary {
-    background-color: variables.$primary !important;
-  }
-  &.text-bg-success {
-    background-color: #28a745 !important; // Standard success green
-  }
-  &.text-bg-light {
-    color: variables.$body-color !important;
-    background-color: variables.$light !important;
-  }
-}
-
 .alert-info {
   background-color: color.adjust(variables.$info, $lightness: 20%);
   color: color.adjust(variables.$info, $lightness: -20%);
@@ -82,4 +66,13 @@
   background-color: variables.$primary;
   border-color: variables.$primary;
   color: #fff; // Assuming white text on primary background is desired
+}
+
+.description-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; // Limit to 2 lines for list/accordion
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px; // Adjust as needed for table column width
 }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AsyncPipe } from '@angular/common';
 import { Observable } from 'rxjs';
@@ -11,7 +11,8 @@ import { faClipboardList, faRightToBracket, faUserPlus, faRightFromBracket, faHo
   standalone: true,
   imports: [AsyncPipe, RouterLink, RouterLinkActive, FontAwesomeModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrl: './header.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent {
   private authService = inject(AuthService);

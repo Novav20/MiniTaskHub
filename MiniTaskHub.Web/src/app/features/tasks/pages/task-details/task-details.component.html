@@ -63,7 +63,7 @@
                 }
               </div>
             } @else {
-              <p><span class="badge" [ngClass]="getBadgeClass(task.status)">{{ getBadgeText(task.status) }}</span></p>
+              <p><app-status-badge [status]="task.status"></app-status-badge></p>
             }
           </div>
 

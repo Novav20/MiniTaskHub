@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, inject, OnChanges, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter, OnInit, inject, OnChanges, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { TaskItem, TaskItemStatus, TaskDto } from '../../../core/models/task.model';
@@ -12,7 +12,8 @@ declare var bootstrap: any; // Declare bootstrap to avoid TypeScript errors
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FontAwesomeModule],
   templateUrl: './task-edit-modal.component.html',
-  styleUrl: './task-edit-modal.component.scss'
+  styleUrl: './task-edit-modal.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskEditModalComponent implements OnInit, OnChanges {
   @ViewChild('editTaskModal') modalElement!: ElementRef<HTMLElement>;
