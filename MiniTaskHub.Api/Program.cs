@@ -45,6 +45,7 @@ builder.Services.AddDbContext<TaskHubDbContext>(options =>
     }));
 
 // Register Application Services
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ITaskService, TaskService>();
 
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()

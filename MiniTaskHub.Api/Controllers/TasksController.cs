@@ -1,6 +1,5 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MiniTaskHub.Core.DTOs;
@@ -13,11 +12,10 @@ namespace MiniTaskHub.Api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class TasksController(ITaskService taskService, IMapper mapper, UserManager<ApplicationUser> userManager) : ControllerBase
+    public class TasksController(ITaskService taskService, IMapper mapper) : ControllerBase
     {
         private readonly ITaskService _taskService = taskService;
         private readonly IMapper _mapper = mapper;
-        private readonly UserManager<ApplicationUser> _userManager = userManager;
 
         private string GetCurrentUserId()
         {

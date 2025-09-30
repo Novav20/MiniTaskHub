@@ -27,7 +27,7 @@ public class TasksServiceTests
         };
 
         // Act
-        var createdTask = await service.CreateTaskAsync(newTask);
+        var createdTask = await service.CreateTaskAsync(newTask, "test-user-id");
 
         // Assert
         Assert.NotNull(createdTask);

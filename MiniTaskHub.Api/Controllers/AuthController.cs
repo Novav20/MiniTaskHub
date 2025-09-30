@@ -1,11 +1,8 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using MiniTaskHub.Core.DTOs;
 using MiniTaskHub.Core.Models;
+using MiniTaskHub.Core.Services;
 
 namespace MiniTaskHub.Api.Controllers
 {
@@ -17,12 +14,12 @@ namespace MiniTaskHub.Api.Controllers
     public class AuthController(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
-        IConfiguration configuration
+        ITokenService tokenService
     ) : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager = userManager;
         private readonly SignInManager<ApplicationUser> _signInManager = signInManager;
-        private readonly IConfiguration _configuration = configuration;
+        private readonly ITokenService _tokenService = tokenService;
 
         /// <summary>
         /// Registers a new user.
@@ -42,7 +39,6 @@ namespace MiniTaskHub.Api.Controllers
             if (!result.Succeeded)
                 return BadRequest(new ErrorResponse { Message = "User creation failed!", Details = result.Errors.ToString() });
 
-            // await _signInManager.SignInAsync(user, false);
             return Ok();
         }
 
@@ -67,29 +63,7 @@ namespace MiniTaskHub.Api.Controllers
             if (!result.Succeeded)
                 return Unauthorized(new ErrorResponse { Message = "Incorrect email or password" });
 
-            // 1. Create user claimes (info to put in the token)
-            var claims = new[]{
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email!),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
-
-            // 2. Get your secret key and settings from configuration
-            var jwtSettings = _configuration.GetSection("Jwt");
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]!));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            // 3. Build the token
-            var token = new JwtSecurityToken(
-                issuer: jwtSettings["Issuer"],
-                audience: jwtSettings["Audience"],
-                claims: claims,
-                expires: DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings["ExpiresInMinutes"])),
-                signingCredentials: credentials
-            );
-
-            // 4. Return the token string to the client
-            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+            var tokenString = _tokenService.CreateToken(user);
             return Ok(new { token = tokenString });
         }
     }
